@@ -1,20 +1,22 @@
-import java.awt.Canvas;
+package renderableObject;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Point;
-
 
 public abstract class RenderableObject {
 	protected Dimension dimension;
 	protected Point location;
 	protected int priority;
-	
+
 	public abstract void draw(Graphics g);
-	
-	public void move(int x,int y){
-		setLocation(new Point(x,y));
+
+	public abstract void save(String filename);
+
+	public void move(int x, int y) {
+		setLocation(new Point(x, y));
 	}
-	public void move(Point loc){
+
+	public void move(Point loc) {
 		setLocation(loc);
 	}
 
@@ -41,8 +43,5 @@ public abstract class RenderableObject {
 	public void setPriority(int priority) {
 		this.priority = priority;
 	}
-
-
-	
 
 }

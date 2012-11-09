@@ -1,5 +1,5 @@
+package renderableObject;
 import java.awt.BasicStroke;
-import java.awt.Canvas;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.util.ArrayList;
@@ -39,7 +39,7 @@ public class Shape extends RenderableObject {
 
 		// current state should always be the last thing drawn
 		for (int i = 0; i <= currentState; i++) {
-			g2.setStroke(new BasicStroke(lines.get(i).thickiness));
+			g2.setStroke(new BasicStroke(lines.get(i).thickness));
 
 			x1 = (int) (lines.get(i).start.getX()+ location.getX());
 			x2 = (int) (lines.get(i).end.getX()+ location.getX());
