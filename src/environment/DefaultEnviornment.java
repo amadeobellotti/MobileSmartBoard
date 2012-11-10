@@ -1,20 +1,16 @@
 package environment;
 
-import java.awt.Graphics;
-import java.util.ArrayList;
+import java.awt.Dimension;
 
-import javax.swing.JPanel;
+public class DefaultEnviornment extends Enviornment {
+	public static final Dimension DefaultDimension = new Dimension(1008, 709);
 
-import renderableObject.RenderableObject;
-
-public class DefaultEnviornment  extends JPanel {
-	
-	ArrayList<RenderableObject> objects;
-	
-	public void paint(Graphics g) {
-		for(RenderableObject o: objects){
-			o.draw(g);
-		}
-		
+	public DefaultEnviornment() {
+		super(DefaultDimension);
 	}
+
+	public DefaultEnviornment(Dimension d) {
+		super(d);
+	}
+
 }

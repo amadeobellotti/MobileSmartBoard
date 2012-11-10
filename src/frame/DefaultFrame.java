@@ -5,33 +5,24 @@ import java.awt.Point;
 import java.awt.Toolkit;
 import javax.swing.JFrame;
 import javax.swing.JMenuBar;
-import frameListener.DefaultFrameListner;
+import frameListener.DefaultFrameListener;
 import frameListener.FrameListener;
 
 public class DefaultFrame extends JFrame {
-
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 5099785717479598469L;
-
-	public enum Mode {
-		HARMONICS, IMPACT
-	}
-
-	protected Mode mode;
 	protected FrameListener frameListener;
 
-	protected Dimension frameSize = new Dimension(600, 600);
+	protected Dimension frameSize;
 	protected Point location;
 
 	protected JMenuBar menuBar = new JMenuBar();
 
-	public DefaultFrame(Mode mode, FrameListener fListener, Dimension fSize) {
-		this.setMode(mode);
-		if (fListener == null) {
-			fListener = new DefaultFrameListner();
-		}
+	public DefaultFrame(FrameListener fListener, Dimension fSize) {
+		/*if (fListener == null) {
+			fListener = new DefaultFrameListener();
+		}*/
+		/*if(fSize == null){
+			fSize = new Dimension(1024,768);
+		}*/
 		this.frameListener = fListener;
 		fListener.setFrame(this);
 		this.frameSize = fSize;
@@ -60,30 +51,7 @@ public class DefaultFrame extends JFrame {
 
 	}
 
-	public void setMode(Mode mode) {
-		if (mode == null) {
-			mode = Mode.IMPACT;
-		}
-
-		this.mode = mode;
-		switch (mode) {
-		case IMPACT:
-			setIconImage(Toolkit.getDefaultToolkit().getImage(
-					"./icon/impact.png"));
-			break;
-		case HARMONICS:
-			setIconImage(Toolkit.getDefaultToolkit().getImage(
-					"./icon/harmonics.png"));
-			break;
-
-		}
-
-	}
-
-	public Mode getMode() {
-		return mode;
-	}
-
+	
 	protected String string2html(String input) {
 		String output = "<html>" + input.replace("\n", "<br>") + "</html>";
 		return output;
