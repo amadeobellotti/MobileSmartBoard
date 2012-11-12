@@ -1,8 +1,14 @@
 package frameListener;
 
+import java.awt.Point;
 import java.awt.event.ActionEvent;
 import java.awt.event.MouseEvent;
 import java.awt.event.WindowEvent;
+
+import renderableObject.Shape;
+
+import frame.MainFrame;
+import frame.ShapeMaker;
 
 public class MainFrameListener extends FrameListener {
 
@@ -50,7 +56,13 @@ public class MainFrameListener extends FrameListener {
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		// TODO Auto-generated method stub
+		System.out.println(e.getActionCommand());
+		if(e.getActionCommand().contains("Shape")){
+			((MainFrame) frame).getRightClickMenu().setVisible(false);
+			ShapeMaker shapeMaker = new ShapeMaker((MainFrame) frame);
+			
+			
+		}
 
 	}
 
@@ -64,7 +76,11 @@ public class MainFrameListener extends FrameListener {
 			System.out.println("Middle Click");
 			break;
 		case MouseEvent.BUTTON3:
-			System.out.println("Right click");
+		//	System.out.println("Right click");
+			//((MainFrame) frame).getRightClickMenu().setLocation(e.getX()+frame.getX(), e.getY()+frame.getY());
+			//((MainFrame) frame).getRightClickMenu().setVisible(true);
+		//	((MainFrame) frame).setClickLocation(new Point(e.getX()+frame.getX(), e.getY()+frame.getY()));
+
 			break;
 		}
 	}
@@ -83,13 +99,21 @@ public class MainFrameListener extends FrameListener {
 
 	@Override
 	public void mousePressed(MouseEvent e) {
-		// TODO Auto-generated method stub
-
+		if (e.isPopupTrigger()) {
+			showMenu(e);
+		}
 	}
 
 	@Override
 	public void mouseReleased(MouseEvent e) {
-		// TODO Auto-generated method stub
+		if (e.isPopupTrigger()) {
+			showMenu(e);
+		}
+	}
+	
+	private void showMenu(MouseEvent e) {
+		((MainFrame) frame).getRightClickMenu().show(e.getComponent(), e.getX(), e.getY());
+		((MainFrame) frame).setClickLocation(new Point(e.getX()+frame.getX(), e.getY()+frame.getY()));
 
 	}
 

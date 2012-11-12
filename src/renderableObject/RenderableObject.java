@@ -7,6 +7,10 @@ public abstract class RenderableObject {
 	protected Dimension dimension;
 	protected Point location;
 	protected int priority;
+	
+	public RenderableObject(Point loc){
+		location = loc;
+	}
 
 	public abstract void draw(Graphics g);
 
