@@ -11,6 +11,7 @@ import frameListener.MainFrameListener;
 import javax.swing.JPanel;
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
+import javax.swing.JFrame;
 import javax.swing.JMenuBar;
 import javax.swing.JMenu;
 import javax.swing.JPopupMenu;
@@ -33,6 +34,8 @@ public class MainFrame extends DefaultFrame {
 	public MainFrame() {
 		super(new MainFrameListener(), new Dimension(1024, 768));
 		setSize(frameSize);
+		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+
 
 		frameLocation=new Point(0,0);
 		world = new DefaultEnviornment();

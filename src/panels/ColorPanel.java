@@ -11,6 +11,7 @@ public class ColorPanel extends JPanel {
 
 	public void setColor(Color c) {
 		color = c;
+		repaint();
 	}
 
 	public Color getColor() {
