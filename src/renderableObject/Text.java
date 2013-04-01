@@ -4,9 +4,12 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Point;
+import java.util.Scanner;
 
 public class Text extends RenderableObject {
 
+	public final int LINE_LENGTH = 80;
+	
 	private String text;
 	private Font font;
 	private Color c;
@@ -25,11 +28,23 @@ public class Text extends RenderableObject {
 
 	@Override
 	public void draw(Graphics g) {
-		System.out.println(text);
-		System.out.println(location);
 		g.setColor(c);
 		g.setFont(font);
-		g.drawString(text, location.x, location.y);
+		
+		Scanner s = new Scanner(text);
+		int lineNumber = 0;
+		while(s.hasNext()){
+			String currentLine = s.nextLine();
+			while(currentLine.length() >LINE_LENGTH){
+				String cline = currentLine.substring(0,LINE_LENGTH);
+				currentLine = currentLine.substring(LINE_LENGTH);
+				g.drawString(cline, location.x, location.y+(font.getSize()*lineNumber));
+				lineNumber++;
+			}
+			g.drawString(currentLine, location.x, location.y+(font.getSize()*lineNumber));
+			lineNumber++;
+		}
+		
 	}
 
 	@Override
