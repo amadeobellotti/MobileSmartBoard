@@ -2,25 +2,20 @@ package frame;
 
 import java.awt.Color;
 import java.awt.Dimension;
-import java.awt.Shape;
 
 import frameListener.FrameListener;
 import frameListener.ShapeMakerListener;
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
 import javax.swing.JButton;
-import javax.swing.JColorChooser;
 import javax.swing.LayoutStyle.ComponentPlacement;
-import java.awt.event.ActionListener;
-import java.awt.event.ActionEvent;
-import javax.swing.JPanel;
 
 import panels.ColorPanel;
+import renderableObject.RenderableObject;
 import renderableObject.RenderableShape;
 
 import javax.swing.JSpinner;
 import javax.swing.JLabel;
-import javax.swing.JTextField;
 
 public class ShapeMaker extends DefaultFrame {
 
@@ -29,11 +24,26 @@ public class ShapeMaker extends DefaultFrame {
 	private JSpinner spinner;
 	private boolean finished = false;
 	MainFrame parent;
+	protected JButton btnRedo, btnUndo;
 
+	public ShapeMaker(MainFrame parent,FrameListener fl) {
+		super(fl, new Dimension(800, 600));
+		this.parent = parent;
+
+		setupFrame();
+	}
+	
+	/**
+	 * @wbp.parser.constructor
+	 */
 	public ShapeMaker(MainFrame parent) {
 		super(new ShapeMakerListener(), new Dimension(800, 600));
-
 		this.parent = parent;
+
+		setupFrame();	
+	}
+	
+	private void setupFrame(){
 
 		setTitle("Shape Maker");		
 		
@@ -41,10 +51,10 @@ public class ShapeMaker extends DefaultFrame {
 		JButton btnFinish = new JButton("Finish");
 		btnFinish.addActionListener(frameListener);
 
-		JButton btnRedo = new JButton("Redo");
+		btnRedo = new JButton("Redo");
 		btnRedo.addActionListener(frameListener);
 
-		JButton btnUndo = new JButton("Undo");
+		btnUndo = new JButton("Undo");
 		btnUndo.addActionListener(frameListener);
 
 		JButton btnNewButton = new JButton("Set Color");
@@ -194,7 +204,7 @@ public class ShapeMaker extends DefaultFrame {
 		finished = fin;
 	}
 
-	public RenderableShape getShape() {
+	public RenderableObject getCurrentShape(){
 		return shapeDrawer.getCurrentShape();
 	}
 

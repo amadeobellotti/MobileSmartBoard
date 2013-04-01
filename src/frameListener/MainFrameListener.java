@@ -7,8 +7,11 @@ import java.awt.event.WindowEvent;
 
 import renderableObject.RenderableShape;
 
+import frame.EllipseMaker;
 import frame.MainFrame;
+import frame.RectangleMaker;
 import frame.ShapeMaker;
+import frame.TextMaker;
 
 public class MainFrameListener extends FrameListener {
 
@@ -57,11 +60,18 @@ public class MainFrameListener extends FrameListener {
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		System.out.println(e.getActionCommand());
-		if(e.getActionCommand().contains("Shape")){
+		if(e.getActionCommand().contains("Custom")){
 			((MainFrame) frame).getRightClickMenu().setVisible(false);
 			ShapeMaker shapeMaker = new ShapeMaker((MainFrame) frame);
-			
-			
+		}else if(e.getActionCommand().contains("Ellipse")){
+			((MainFrame) frame).getRightClickMenu().setVisible(false);
+			EllipseMaker elipseMaker = new EllipseMaker((MainFrame) frame);
+		}else if(e.getActionCommand().contains("Rectangle")){
+			((MainFrame) frame).getRightClickMenu().setVisible(false);
+			RectangleMaker rectangleMaker = new RectangleMaker((MainFrame) frame);
+		}else if(e.getActionCommand().contains("Text")){
+			((MainFrame) frame).getRightClickMenu().setVisible(false);
+			TextMaker textMaker = new TextMaker((MainFrame) frame);
 		}
 
 	}

@@ -27,6 +27,7 @@ public abstract class Enviornment extends JPanel {
 		item.setPriority(objects.size());
 		objects.add(item);
 		sort();
+		repaint();
 	}
 	
 	public void remove(RenderableObject item){
@@ -51,8 +52,6 @@ public abstract class Enviornment extends JPanel {
 	public void drawBackground(Graphics g){
 		g.setColor(Color.white);
 		g.drawRect(0, 0,(int) dimension.getWidth(),(int) dimension.getWidth());
-		g.fillRect(0, 0,(int) dimension.getWidth(),(int) dimension.getWidth());
-
-		
+		g.fillRect(0, 0,(int) dimension.getWidth(),(int) dimension.getWidth());		
 	}
 }

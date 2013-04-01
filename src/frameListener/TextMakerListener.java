@@ -1,25 +1,19 @@
 package frameListener;
 
 import java.awt.Color;
-import java.awt.Point;
+import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.MouseEvent;
 import java.awt.event.WindowEvent;
 
 import javax.swing.JColorChooser;
 
-import renderableObject.Line;
 import renderableObject.RenderableObject;
-import renderableObject.RenderableShape;
-
-import frame.MainFrame;
-import frame.ShapeDrawer;
+import frame.JFontChooser;
 import frame.ShapeMaker;
+import frame.TextMaker;
 
-public class ShapeMakerListener extends FrameListener {
-
-	protected Point start;
-	protected Point end;
+public class TextMakerListener extends FrameListener {
 
 	@Override
 	public void windowActivated(WindowEvent e) {
@@ -71,26 +65,29 @@ public class ShapeMakerListener extends FrameListener {
 			((ShapeMaker) frame).getShapeDrawer().redo();
 		} else if (e.getActionCommand().equals("Finish")) {
 			System.out.println("Finish");
-			((ShapeMaker) frame).setVisible(false);
-			((ShapeMaker) frame).setFinished(true);
+			((TextMaker) frame).setVisible(false);
 
-			RenderableObject shape = ((ShapeMaker) frame).getShapeDrawer()
-					.getCurrentShape();
-			
-			shape.setLocation(((ShapeMaker) frame).getParentFrame()
+			RenderableObject text = ((TextMaker) frame).getText();
+			text.setLocation(((TextMaker) frame).getParentFrame()
 					.getClickLocation());
-			((ShapeMaker) frame).getParentFrame().getWorld().add(shape);
-		}else if (e.getActionCommand().equals("Set Color")) {
+			((TextMaker) frame).getParentFrame().getWorld().add(text);
+		} else if (e.getActionCommand().equals("Set Color")) {
 			System.out.println("Set Color");
-			Color newColor = JColorChooser.showDialog(
-                    frame,"Select Color",
-                    ((ShapeMaker) frame).getColor());
-			((ShapeMaker) frame).setColor(newColor);
+			Color newColor = JColorChooser.showDialog(frame, "Select Color",
+					((TextMaker) frame).getColor());
+			((TextMaker) frame).setColor(newColor);
+		} else if (e.getActionCommand().equals("Set Font")) {
+			Font currentFont = ((TextMaker) frame).getCurrentFont();
+			currentFont = JFontChooser.showDialog(frame, "Pick a Font",
+					currentFont);
+			((TextMaker) frame).setCurrentFont(currentFont);
 		}
 	}
 
 	@Override
 	public void mouseClicked(MouseEvent e) {
+		// TODO Auto-generated method stub
+
 	}
 
 	@Override
@@ -107,16 +104,14 @@ public class ShapeMakerListener extends FrameListener {
 
 	@Override
 	public void mousePressed(MouseEvent e) {
-		start = e.getPoint();
+		// TODO Auto-generated method stub
+
 	}
 
 	@Override
 	public void mouseReleased(MouseEvent e) {
-		end = e.getPoint();
-		int thickness = ((ShapeMaker) frame).getThickness();
-		Color c = ((ShapeMaker) frame).getColor();
-		ShapeDrawer sdrawer = ((ShapeMaker) frame).getShapeDrawer();
-		sdrawer.addLine(new Line(start.x, start.y, end.x, end.y, thickness, c));
+		// TODO Auto-generated method stub
+
 	}
 
 }

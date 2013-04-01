@@ -64,7 +64,22 @@ public class MainFrame extends DefaultFrame {
 
 		JMenu mnAdd = new JMenu("Add");
 		rightClickMenu.add(mnAdd);
-		JMenuItem mntmShape = new JMenuItem("Shape");
+
+		
+		JMenuItem mntmRectangle = new JMenuItem("Rectangle");
+		mnAdd.add(mntmRectangle);
+		mntmRectangle.addActionListener(frameListener);
+		
+		JMenuItem mntmElipse = new JMenuItem("Ellipse");
+		mnAdd.add(mntmElipse);
+		mntmElipse.addActionListener(frameListener);
+		
+		JMenuItem mntmText = new JMenuItem("Text");
+		mnAdd.add(mntmText);
+		mntmText.addActionListener(frameListener);
+		
+		JMenuItem mntmShape = new JMenuItem("Custom...");
+		mntmShape.setActionCommand("Custom");
 		mnAdd.add(mntmShape);
 		mntmShape.addActionListener(frameListener);
 	}
@@ -81,12 +96,39 @@ public class MainFrame extends DefaultFrame {
 
 		JMenu mnFile = new JMenu("File");
 		menuBar.add(mnFile);
+		
+		JMenu mnAdd_1 = new JMenu("Add");
+		mnFile.add(mnAdd_1);
+		
+		JMenuItem mntmElipse = new JMenuItem("Ellipse");
+		mnAdd_1.add(mntmElipse);
+		
+		JMenuItem mntmRectangle = new JMenuItem("Rectangle");
+		mnAdd_1.add(mntmRectangle);
+		
+		JMenuItem mntmText = new JMenuItem("Text");
+		mnAdd_1.add(mntmText);
+		
+		JMenuItem mntmCustom = new JMenuItem("Custom...");
+		mnAdd_1.add(mntmCustom);
+		
+		JMenuItem mntmSave = new JMenuItem("Save");
+		mnFile.add(mntmSave);
+		
+		JMenuItem mntmOpen = new JMenuItem("Open");
+		mnFile.add(mntmOpen);
 
 		JMenu mnEdit = new JMenu("Edit");
 		menuBar.add(mnEdit);
+		
+		JMenuItem mntmSettings = new JMenuItem("Settings");
+		mnEdit.add(mntmSettings);
 
 		JMenu mnView = new JMenu("View");
 		menuBar.add(mnView);
+		
+		JMenuItem mntmList = new JMenuItem("List");
+		mnView.add(mntmList);
 
 		JMenu mnHelp = new JMenu("Help");
 		menuBar.add(mnHelp);
