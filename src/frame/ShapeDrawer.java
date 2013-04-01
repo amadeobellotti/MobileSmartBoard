@@ -4,12 +4,12 @@ import java.awt.Color;
 import java.awt.Graphics;
 import javax.swing.JPanel;
 import renderableObject.Line;
-import renderableObject.Shape;
+import renderableObject.RenderableShape;
 
 public class ShapeDrawer extends JPanel{
 	
 	private Color currentColor = Color.black;
-	private Shape currentShape = new Shape(this.getLocation());
+	private RenderableShape currentShape = new RenderableShape(this.getLocation());
 
 	public void paint(Graphics g){
 		g.setColor(Color.white);
@@ -23,11 +23,11 @@ public class ShapeDrawer extends JPanel{
 		repaint();
 	}
 	
-	public Shape getCurrentShape(){
+	public RenderableShape getCurrentShape(){
 		return currentShape;
 	}
 	
-	public void setCurrentShape(Shape cShape){
+	public void setCurrentShape(RenderableShape cShape){
 		currentShape = cShape;
 	}
 

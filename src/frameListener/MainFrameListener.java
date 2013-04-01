@@ -5,7 +5,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.MouseEvent;
 import java.awt.event.WindowEvent;
 
-import renderableObject.Shape;
+import renderableObject.RenderableShape;
 
 import frame.MainFrame;
 import frame.ShapeMaker;

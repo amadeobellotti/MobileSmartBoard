@@ -6,11 +6,11 @@ import java.awt.Graphics2D;
 import java.awt.Point;
 import java.util.ArrayList;
 
-public class Shape extends RenderableObject {
+public class RenderableShape extends RenderableObject {
 	private ArrayList<Line> lines;
 	private int currentState = -1;
 
-	public Shape(Point location) {
+	public RenderableShape(Point location) {
 		super(location);
 		lines = new ArrayList<Line>();
 	}

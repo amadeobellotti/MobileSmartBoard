@@ -9,7 +9,7 @@ import java.awt.event.WindowEvent;
 import javax.swing.JColorChooser;
 
 import renderableObject.Line;
-import renderableObject.Shape;
+import renderableObject.RenderableShape;
 
 import frame.MainFrame;
 import frame.ShapeDrawer;
@@ -72,7 +72,7 @@ public class ShapeMakerListener extends FrameListener {
 			((ShapeMaker) frame).setVisible(false);
 			((ShapeMaker) frame).setFinished(true);
 
-			Shape shape = ((ShapeMaker) frame).getShapeDrawer()
+			RenderableShape shape = ((ShapeMaker) frame).getShapeDrawer()
 					.getCurrentShape();
 			
 			shape.setLocation(((ShapeMaker) frame).getParentFrame()

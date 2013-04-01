@@ -2,6 +2,7 @@ package frame;
 
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.Shape;
 
 import frameListener.FrameListener;
 import frameListener.ShapeMakerListener;
@@ -15,7 +16,7 @@ import java.awt.event.ActionEvent;
 import javax.swing.JPanel;
 
 import panels.ColorPanel;
-import renderableObject.Shape;
+import renderableObject.RenderableShape;
 
 import javax.swing.JSpinner;
 import javax.swing.JLabel;
@@ -193,7 +194,7 @@ public class ShapeMaker extends DefaultFrame {
 		finished = fin;
 	}
 
-	public Shape getShape() {
+	public RenderableShape getShape() {
 		return shapeDrawer.getCurrentShape();
 	}
 
