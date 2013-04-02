@@ -37,7 +37,20 @@ public abstract class Enviornment extends JPanel {
 	
 	
 	private void sort() {
-		// TODO create method that sorts objects by priority (higher is "better")
+		int n = objects.size();
+		
+		for (int pass=1; pass < n; pass++) {  // count how many times
+	        // This next loop becomes shorter and shorter
+	        for (int i=0; i < n-pass; i++) {
+	            if (objects.get(i).getPriority() > objects.get(i+1).getPriority()) {
+	                // exchange elements
+	            	RenderableObject temp = objects.get(i);
+	            	objects.set(i,objects.get(i+1));
+	            	objects.set(i+1,temp);
+
+	            }
+	        }
+	    }
 		
 	}
 
@@ -53,5 +66,9 @@ public abstract class Enviornment extends JPanel {
 		g.setColor(Color.white);
 		g.drawRect(0, 0,(int) dimension.getWidth(),(int) dimension.getWidth());
 		g.fillRect(0, 0,(int) dimension.getWidth(),(int) dimension.getWidth());		
+	}
+	
+	public ArrayList<RenderableObject> getObjects(){
+		return objects;
 	}
 }

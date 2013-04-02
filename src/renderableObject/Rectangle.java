@@ -2,6 +2,7 @@ package renderableObject;
 
 import java.awt.BasicStroke;
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Point;
@@ -9,6 +10,8 @@ import java.awt.geom.Ellipse2D;
 import java.awt.geom.Rectangle2D;
 
 public class Rectangle extends RenderableObject {
+	protected static String className = "Rectangle";
+	protected int classCount = 0;	
 	private Point start, end;
 	private int thickness;
 	private Color c;
@@ -19,6 +22,8 @@ public class Rectangle extends RenderableObject {
 		this.end = end;
 		this.thickness = thickness;
 		this.c = c;
+		
+		dimension = new Dimension(Math.abs(start.x - end.x)+thickness+2, Math.abs(start.y - end.y)+thickness+2);
 	}
 
 	@Override
@@ -30,7 +35,13 @@ public class Rectangle extends RenderableObject {
 		Rectangle2D.Double rect = new Rectangle2D.Double(location.x+thickness, location.y+thickness,
 				Math.abs(start.x - end.x), Math.abs(start.y - end.y));
 		g2.draw(rect);
+		
+		if(selected){
+			drawBoundingBox(g);
+		}
 	}
+
+	
 
 	@Override
 	public void save(String filename) {

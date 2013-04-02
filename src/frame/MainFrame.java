@@ -16,9 +16,13 @@ import javax.swing.JMenuBar;
 import javax.swing.JMenu;
 import javax.swing.JPopupMenu;
 import javax.swing.JMenuItem;
+
+import renderableObject.RenderableObject;
+
 import java.awt.Component;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.util.ArrayList;
 
 public class MainFrame extends DefaultFrame {
 	/**
@@ -173,5 +177,9 @@ public class MainFrame extends DefaultFrame {
 
 	public Point getClickLocation() {
 		return frameLocation;
+	}
+
+	public ArrayList<RenderableObject> getObjects() {
+		return world.getObjects();
 	}
 }
