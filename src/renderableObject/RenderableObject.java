@@ -19,7 +19,7 @@ public abstract class RenderableObject {
 	protected boolean selected;
 
 	public static enum ObjectType {
-		DEFAULT, SHAPE, RECTANGLE, ELLIPSE, TEXT
+		DEFAULT, SHAPE, RECTANGLE, ELLIPSE, TEXT, IMAGE, LATEX
 	};
 
 	protected ObjectType objectType;

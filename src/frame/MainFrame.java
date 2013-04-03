@@ -51,7 +51,7 @@ public class MainFrame extends DefaultFrame {
 		groupLayout.setVerticalGroup(groupLayout.createParallelGroup(
 				Alignment.LEADING).addComponent(world,
 				GroupLayout.DEFAULT_SIZE, 709, Short.MAX_VALUE));
-		
+
 		getContentPane().setLayout(groupLayout);
 		world.addMouseListener(frameListener);
 		setupFrame();
@@ -62,16 +62,16 @@ public class MainFrame extends DefaultFrame {
 	}
 
 	private void setupPopup() {
-		//Menu if something isnt selected
+		// Menu if something isnt selected
 		unselectedRightClickMenu = new JPopupMenu();
 		unselectedRightClickMenu.addMouseListener(frameListener);
 
 		JMenu mnAdd = new JMenu("Add");
 		unselectedRightClickMenu.add(mnAdd);
-		
+
 		JMenu mnEdit = new JMenu("Edit");
 		unselectedRightClickMenu.add(mnEdit);
-		
+
 		JMenuItem mntmPaste1 = new JMenuItem("Paste");
 		mnEdit.add(mntmPaste1);
 		mntmPaste1.addActionListener(frameListener);
@@ -88,12 +88,20 @@ public class MainFrame extends DefaultFrame {
 		mnAdd.add(mntmText);
 		mntmText.addActionListener(frameListener);
 
+		JMenuItem mntmLatex = new JMenuItem("Latex");
+		mnAdd.add(mntmLatex);
+		mntmLatex.addActionListener(frameListener);
+
+		JMenuItem mntmImage = new JMenuItem("Image");
+		mnAdd.add(mntmImage);
+		mntmImage.addActionListener(frameListener);
+
 		JMenuItem mntmShape = new JMenuItem("Custom...");
 		mntmShape.setActionCommand("Custom");
 		mnAdd.add(mntmShape);
 		mntmShape.addActionListener(frameListener);
 
-		//menu if something is selected
+		// menu if something is selected
 
 		selectedRightClickMenu = new JPopupMenu();
 		selectedRightClickMenu.addMouseListener(frameListener);
@@ -118,8 +126,6 @@ public class MainFrame extends DefaultFrame {
 		selectedRightClickMenu.add(mntmDelete);
 		mntmDelete.addActionListener(frameListener);
 
-	
-
 	}
 
 	private void setupFrame() {
@@ -136,8 +142,8 @@ public class MainFrame extends DefaultFrame {
 		menuBar.add(mnFile);
 
 		JMenu mnAdd_1 = new JMenu("Add");
-		mnFile.add(mnAdd_1);	
-		
+		mnFile.add(mnAdd_1);
+
 		JMenuItem mntmElipse = new JMenuItem("Ellipse");
 		mnAdd_1.add(mntmElipse);
 		mntmElipse.addActionListener(frameListener);
@@ -150,6 +156,14 @@ public class MainFrame extends DefaultFrame {
 		mnAdd_1.add(mntmText);
 		mntmText.addActionListener(frameListener);
 
+		JMenuItem mntmLatex = new JMenuItem("Latex");
+		mnAdd_1.add(mntmLatex);
+		mntmLatex.addActionListener(frameListener);
+
+		JMenuItem mntmImage = new JMenuItem("Image");
+		mnAdd_1.add(mntmImage);
+		mntmImage.addActionListener(frameListener);
+
 		JMenuItem mntmCustom = new JMenuItem("Custom...");
 		mnAdd_1.add(mntmCustom);
 		mntmCustom.setActionCommand("Custom");
@@ -158,12 +172,11 @@ public class MainFrame extends DefaultFrame {
 		JMenuItem mntmSave = new JMenuItem("Save");
 		mnFile.add(mntmSave);
 		mntmSave.addActionListener(frameListener);
-		
+
 		JMenuItem mntmSaveAs = new JMenuItem("Save As...");
 		mnFile.add(mntmSaveAs);
 		mntmSaveAs.setActionCommand("Save As");
 		mntmSaveAs.addActionListener(frameListener);
-
 
 		JMenuItem mntmOpen = new JMenuItem("Open...");
 		mnFile.add(mntmOpen);
@@ -192,10 +205,10 @@ public class MainFrame extends DefaultFrame {
 
 	public void setWorld(Environment w) {
 		world.clean();
-		for(RenderableObject o: w.getObjects()){
+		for (RenderableObject o : w.getObjects()) {
 			world.add(o);
 		}
-		
+
 		this.world.repaint();
 	}
 
@@ -229,7 +242,7 @@ public class MainFrame extends DefaultFrame {
 	public void setClickLocation(Point loc) {
 		frameLocation = loc;
 	}
-	
+
 	public Point getClickLocation() {
 		return frameLocation;
 	}
@@ -237,6 +250,7 @@ public class MainFrame extends DefaultFrame {
 	public ArrayList<RenderableObject> getObjects() {
 		return world.getObjects();
 	}
+
 	protected JPopupMenu getSelectedpopupMenu() {
 		return selectedRightClickMenu;
 	}

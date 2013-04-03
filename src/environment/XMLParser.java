@@ -9,13 +9,14 @@ import java.util.regex.Pattern;
 import renderableObject.Ellipse;
 import renderableObject.Line;
 import renderableObject.Rectangle;
+import renderableObject.RenderableImage;
 import renderableObject.RenderableObject;
 import renderableObject.RenderableShape;
 import renderableObject.Text;
 
 public class XMLParser {
 	public enum LegalTag {
-		Illegal, Enviorment, Header, ProjectName, Name, Objects, Object, Type, Location, Line, Start, End, Thickness, Color, Font, Style, Size, Text
+		Illegal, Enviorment, Header, ProjectName, Name, Objects, Object, Type, Location, Line, Start, End, Source, Thickness, Color, Font, Style, Size, Text
 	}
 
 	public XMLParser() {
@@ -73,6 +74,8 @@ public class XMLParser {
 			return LegalTag.Size;
 		case "Text":
 			return LegalTag.Text;
+		case "Source":
+			return LegalTag.Source;
 		default:
 			return LegalTag.Illegal;
 
@@ -119,7 +122,7 @@ public class XMLParser {
 			}
 		} while (inFile.hasNext()
 				&& !(isCloseTag(current) && parseTag(current) == LegalTag.Objects));
-		
+
 		return env;
 	}
 
@@ -138,9 +141,39 @@ public class XMLParser {
 		case "Shape":
 			ro = generateShape(inFile);
 			break;
+		case "Image":
+			ro = generateImage(inFile);
+			break;
 		}
 
 		return ro;
+	}
+
+	private RenderableObject generateImage(Scanner inFile) {
+		Point loc = null;
+		String f = "";
+		String current = inFile.next();
+		while (inFile.hasNext()
+				&& !(isCloseTag(current) && parseTag(current) == LegalTag.Object)) {
+			if (isOpenTag(current)) {
+				switch (parseTag(current)) {
+				case Location:
+					loc = new Point(inFile.nextInt(), inFile.nextInt());
+					break;
+				case Source:
+					f = inFile.nextLine();
+					break;
+
+				default:
+					break;
+				}
+			}
+			current = inFile.next();
+
+		}
+		RenderableImage img = new RenderableImage(f);
+		img.setLocation(loc);
+		return img;
 	}
 
 	private RenderableObject generateText(Scanner inFile) {
@@ -165,7 +198,6 @@ public class XMLParser {
 				case Font:
 					int size,
 					style = 0;
-					inFile.next();
 					String name = inFile.nextLine();
 					style = inFile.nextInt();
 					size = inFile.nextInt();

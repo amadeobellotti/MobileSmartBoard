@@ -80,6 +80,7 @@ public class TextMakerListener extends FrameListener {
 			System.out.println("Finish");
 			((TextMaker) frame).setVisible(false);
 			v.quit = true;
+			v.interrupt();
 
 
 			RenderableObject text = ((TextMaker) frame).getText();

@@ -1,5 +1,6 @@
 package frameListener;
 
+import java.awt.Image;
 import java.awt.Point;
 import java.awt.event.ActionEvent;
 import java.awt.event.MouseEvent;
@@ -9,12 +10,14 @@ import java.io.File;
 import javax.swing.JFileChooser;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
+import renderableObject.RenderableImage;
 import renderableObject.RenderableObject;
 import renderableObject.RenderableShape;
 import renderableObject.Text;
 
 import environment.Environment;
 import frame.EllipseMaker;
+import frame.LatexMaker;
 import frame.MainFrame;
 import frame.RectangleMaker;
 import frame.ShapeMaker;
@@ -103,9 +106,43 @@ public class MainFrameListener extends FrameListener {
 			saveAs();
 		} else if (e.getActionCommand().contains("Open")) {
 			open();
+		} else if (e.getActionCommand().contains("Image")) {
+			image();
+		} else if (e.getActionCommand().contains("Latex")) {
+			latex();
 		}
 
 		frame.repaint();
+	}
+
+	private void latex() {
+		if (selectedObject != null) {
+			new LatexMaker((MainFrame) frame,selectedObject);
+		} else {
+			new LatexMaker((MainFrame) frame);
+		}
+	}
+
+	private void image() {
+		JFileChooser chooser;
+
+		if (loc == null) {
+			chooser = new JFileChooser(System.getProperty("user.home"));
+
+		} else {
+			chooser = new JFileChooser(loc);
+		}
+
+		// chooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
+		int returnVal = chooser.showOpenDialog(frame);
+		if (returnVal == JFileChooser.APPROVE_OPTION) {
+			file = chooser.getSelectedFile();
+			loc = file.getAbsolutePath();
+			RenderableImage img = new RenderableImage(file.getAbsolutePath());
+			img.setLocation(((MainFrame) frame).getClickLocation());
+			((MainFrame) frame).getWorld().add(img);
+
+		}
 	}
 
 	private void open() {
@@ -197,6 +234,11 @@ public class MainFrameListener extends FrameListener {
 		case TEXT:
 			new TextMaker((MainFrame) frame, (Text) selectedObject);
 			break;
+		case IMAGE:
+			image();
+			break;
+		case LATEX:
+			latex();
 		}
 
 	}
