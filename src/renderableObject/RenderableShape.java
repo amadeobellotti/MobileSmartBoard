@@ -33,8 +33,8 @@ public class RenderableShape extends RenderableObject {
 
 	public void save(PrintWriter f) {
 		f.println("<Object>");
-		f.println("<Type> Shape </Type>");
-		f.println("<Location>" + location.x+","+location.y +"</Location>");
+		f.println("<Type>\n Shape\n </Type>");
+		f.println("<Location>\n" + location.x+"\n"+location.y +"\n</Location>");
 		for(Line l:lines){
 			l.save(f);
 		}

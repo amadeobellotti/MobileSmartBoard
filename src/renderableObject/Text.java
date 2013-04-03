@@ -67,17 +67,19 @@ public class Text extends RenderableObject {
 	@Override
 	public void save(PrintWriter f) {
 		f.println("<Object>");
-		f.println("<Type> Text </Type>");
-		f.println("<Location>" + location.x+","+location.y +"</Location>");
-		f.println("<Text>" +text+ "</Text>");
-		
+		f.println("<Type>\n Text \n</Type>");
+		f.println("<Location>\n" + location.x + "\n" + location.y
+				+ "\n</Location>");
+		f.println("<Text>\n" + text + "\n</Text>");
+
 		f.println("<Font>");
-		f.println("<Name>" +font.getName()+ "</Name>");
-		f.println("<Style>" +font.getStyle()+ "</Style>");
-		f.println("<Size>" +font.getSize()+ "</Size>");
+		f.println(font.getName());
+		f.println(font.getStyle());
+		f.println(font.getSize());
 		f.println("</Font>");
-		
-		f.println("<Color>" + c.getRed()+","+c.getGreen() +"," +c.getBlue() +"</Color>");
+
+		f.println("<Color>\n" + c.getRed() + "\n" + c.getGreen() + "\n"
+				+ c.getBlue() + "\n</Color>");
 		f.println("</Object>");
 	}
 
@@ -87,26 +89,29 @@ public class Text extends RenderableObject {
 		int lineNumber = 1;
 		String currentLine = s.nextLine();
 		int lineLength = currentLine.length();
-		AffineTransform affinetransform = new AffineTransform();     
-		FontRenderContext frc = new FontRenderContext(affinetransform,true,true); 
-		int textwidth = (int)(font.getStringBounds(currentLine, frc).getWidth());
-		//int textheight = (int)(font.getStringBounds(currentLine, frc).getHeight());		
+		AffineTransform affinetransform = new AffineTransform();
+		FontRenderContext frc = new FontRenderContext(affinetransform, true,
+				true);
+		int textwidth = (int) (font.getStringBounds(currentLine, frc)
+				.getWidth());
+		// int textheight = (int)(font.getStringBounds(currentLine,
+		// frc).getHeight());
 		while (s.hasNext()) {
 			while (currentLine.length() > LINE_LENGTH) {
 				lineLength = LINE_LENGTH;
-				textwidth = (int)(font.getStringBounds(currentLine.substring(0,LINE_LENGTH), frc).getWidth());
+				textwidth = (int) (font.getStringBounds(
+						currentLine.substring(0, LINE_LENGTH), frc).getWidth());
 				currentLine = currentLine.substring(LINE_LENGTH);
-				
+
 				lineNumber++;
 			}
 			currentLine = s.nextLine();
 			lineNumber++;
 		}
 		s.close();
-		
-		
-		
-		dimension = new Dimension(textwidth+font.getSize()/2,font.getSize()*lineNumber);
+
+		dimension = new Dimension(textwidth + font.getSize() / 2,
+				font.getSize() * lineNumber);
 	}
 
 	@Override

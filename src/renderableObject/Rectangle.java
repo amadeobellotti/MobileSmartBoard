@@ -50,14 +50,14 @@ public class Rectangle extends RenderableObject {
 
 	@Override
 	public void save(PrintWriter f) {
-		f.println("<Object>");
-		f.println("<Type> Rectangle </Type>");
-		f.println("<Location>" + location.x+","+location.y +"</Location>");
-		f.println("<Start>" + start.x+","+start.y +"</Start>");
-		f.println("<End>" + end.x+","+end.y +"</End>");
-		f.println("<Thickness>" + thickness +"</Thickness>");
-		f.println("<Color>" + c.getRed()+","+c.getGreen() +"," +c.getBlue() +"</Color>");
-		f.println("</Object>");
+		f.print("<Object>\n");
+		f.print("<Type>\n Rectangle \n</Type>\n");
+		f.print("<Location>\n" + location.x+"\n"+location.y +"\n</Location>\n");
+		f.print("<Start>\n" + start.x+"\n"+start.y +"\n</Start>\n");
+		f.print("<End>\n" + end.x+"\n"+end.y +"\n</End>\n");
+		f.print("<Thickness>\n" + thickness +"\n</Thickness>\n");
+		f.print("<Color>\n" + c.getRed()+"\n"+c.getGreen() +"\n" +c.getBlue() +"\n</Color>\n");
+		f.print("</Object>\n");
 	}
 
 	@Override

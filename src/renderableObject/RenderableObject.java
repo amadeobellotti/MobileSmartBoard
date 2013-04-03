@@ -8,6 +8,8 @@ import java.awt.geom.Rectangle2D;
 import java.io.PrintWriter;
 
 public abstract class RenderableObject {
+
+	private static int currentNumberOfObjects = 0;
 	protected Dimension dimension;
 	protected Point location;
 	protected int priority;
@@ -15,16 +17,18 @@ public abstract class RenderableObject {
 	protected static int classCount = 0;
 	private String name;
 	protected boolean selected;
+
 	public static enum ObjectType {
-		DEFAULT, SHAPE,RECTANGLE,ELLIPSE,TEXT
+		DEFAULT, SHAPE, RECTANGLE, ELLIPSE, TEXT
 	};
+
 	protected ObjectType objectType;
-	
 
 	public RenderableObject(Point loc) {
 		location = loc;
 		setName();
 		objectType = ObjectType.DEFAULT;
+		priority = currentNumberOfObjects++;
 	}
 
 	private void setName() {
@@ -33,6 +37,7 @@ public abstract class RenderableObject {
 	}
 
 	public abstract void setupBoundary();
+
 	public abstract RenderableObject makeCopy();
 
 	public abstract void draw(Graphics g);
@@ -78,14 +83,14 @@ public abstract class RenderableObject {
 	public void setSelected(boolean b) {
 		selected = b;
 	}
-	
+
 	protected void drawBoundingBox(Graphics g) {
 		g.setColor(Color.GRAY);
 		g.drawRect(location.x, location.y, dimension.width, dimension.height);
-		
+
 	}
-	
-	public ObjectType getObjectType(){
+
+	public ObjectType getObjectType() {
 		return objectType;
 	}
 

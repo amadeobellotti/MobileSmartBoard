@@ -26,11 +26,11 @@ public class Line {
 	public void save(PrintWriter f) {
 		f.println("<Line>");
 
-		f.println("<Start>" + start.x + "," + start.y + "</Start>");
-		f.println("<End>" + end.x + "," + end.y + "</End>");
-		f.println("<Thickness>" + thickness + "</Thickness>");
-		f.println("<Color>" + color.getRed() + "," + color.getGreen() + ","
-				+ color.getBlue() + "</Color>");
+		f.println("<Start>\n" + start.x + "\n" + start.y + "\n</Start>");
+		f.println("<End>\n" + end.x + "\n" + end.y + "\n</End>");
+		f.println("<Thickness>\n" + thickness + "\n</Thickness>");
+		f.println("<Color>\n" + color.getRed() + "\n" + color.getGreen() + "\n"
+				+ color.getBlue() + "\n</Color>");
 		f.println("</Line>");
 
 	}

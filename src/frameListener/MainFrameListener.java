@@ -13,6 +13,7 @@ import renderableObject.RenderableObject;
 import renderableObject.RenderableShape;
 import renderableObject.Text;
 
+import environment.Environment;
 import frame.EllipseMaker;
 import frame.MainFrame;
 import frame.RectangleMaker;
@@ -123,7 +124,8 @@ public class MainFrameListener extends FrameListener {
 		if (returnVal == JFileChooser.APPROVE_OPTION) {
 			file = chooser.getSelectedFile();
 			loc = file.getAbsolutePath();
-			((MainFrame) frame).getWorld().open(file.getAbsolutePath());
+			Environment env = ((MainFrame) frame).getWorld().open(file.getAbsolutePath());
+			((MainFrame) frame).setWorld(env);
 		}
 	}
 

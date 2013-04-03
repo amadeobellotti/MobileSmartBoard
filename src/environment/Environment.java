@@ -3,51 +3,52 @@ package environment;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.OutputStream;
 import java.io.PrintWriter;
 import java.util.ArrayList;
+import java.util.Scanner;
 
 import javax.swing.JPanel;
 
 import renderableObject.RenderableObject;
 
-public abstract class Enviornment extends JPanel {
+public abstract class Environment extends JPanel {
 
 	protected ArrayList<RenderableObject> objects;
 	protected Dimension dimension;
 	private String filename = null;
 
-	public Enviornment(Dimension d) {
+	public Environment(Dimension d) {
 		objects = new ArrayList<RenderableObject>();
 		dimension = d;
 		setSize(dimension);
+
 	}
 
 	public void saveAs(String filename) {
 		this.filename = filename;
-		PrintWriter f = null; 
+		PrintWriter f = null;
 		try {
 			f = new PrintWriter(filename);
 		} catch (FileNotFoundException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
-		f.println("<Enviorment>\n\r" +
-				"<Header>\n\r" +
-				"<Name>" +
-				filename.substring(filename.lastIndexOf(System.getProperty("file.separator"))) +
-				"</Name>\n\r" +
-				"</Header>\n\r" +
-				"<Objects>");
-		
-		for(RenderableObject ro:objects){
+
+		f.println("<Enviorment>\n\r"
+				+ "<Header>\n\r"
+				+ "<Name>"
+				+ filename.substring(filename.lastIndexOf(System
+						.getProperty("file.separator"))) + "</Name>\n\r"
+				+ "</Header>\n\r" + "<Objects>");
+
+		for (RenderableObject ro : objects) {
 			ro.save(f);
 		}
-		f.println("</Objects>\n\r" +
-				"</Enviorment>");
+		f.println("</Objects>\n\r" + "</Enviorment>");
 		f.flush();
 		f.close();
 
@@ -57,8 +58,14 @@ public abstract class Enviornment extends JPanel {
 		saveAs(filename);
 	}
 
-	public Enviornment open(String absolutePath) {
-		//TODO open
+	public Environment open(String absolutePath) {
+		XMLParser xml = new XMLParser();
+		try {
+			return xml.parseEnviorment(new Scanner(new File(absolutePath)));
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		return null;
 	}
 
@@ -71,6 +78,11 @@ public abstract class Enviornment extends JPanel {
 		objects.add(item);
 		sort();
 		repaint();
+
+	}
+
+	public void clean() {
+		objects = new ArrayList<RenderableObject>();
 	}
 
 	public void remove(RenderableObject item) {

@@ -2,14 +2,14 @@ package environment;
 
 import java.awt.Dimension;
 
-public class DefaultEnviornment extends Enviornment {
+public class DefaultEnvironment extends Environment {
 	public static final Dimension DefaultDimension = new Dimension(1008, 709);
 
-	public DefaultEnviornment() {
+	public DefaultEnvironment() {
 		super(DefaultDimension);
 	}
 
-	public DefaultEnviornment(Dimension d) {
+	public DefaultEnvironment(Dimension d) {
 		super(d);
 	}
 

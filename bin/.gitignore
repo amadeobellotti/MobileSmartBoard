@@ -1,4 +1,4 @@
-/frame
-/frameListener
-/renderableObject
 /environment
+/frameListener
+/frame
+/renderableObject

@@ -3,8 +3,8 @@ package frame;
 import java.awt.Dimension;
 import java.awt.Point;
 
-import environment.DefaultEnviornment;
-import environment.Enviornment;
+import environment.DefaultEnvironment;
+import environment.Environment;
 import frameListener.FrameListener;
 import frameListener.MainFrameListener;
 
@@ -29,7 +29,7 @@ public class MainFrame extends DefaultFrame {
 	 * 
 	 */
 	private static final long serialVersionUID = -2501040976700814999L;
-	private DefaultEnviornment world;
+	private Environment world;
 
 	private JMenuBar menuBar;
 	private JPopupMenu unselectedRightClickMenu;
@@ -43,7 +43,7 @@ public class MainFrame extends DefaultFrame {
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
 		frameLocation = new Point(0, 0);
-		world = new DefaultEnviornment();
+		world = new DefaultEnvironment();
 		GroupLayout groupLayout = new GroupLayout(getContentPane());
 		groupLayout.setHorizontalGroup(groupLayout.createParallelGroup(
 				Alignment.LEADING).addComponent(world,
@@ -186,12 +186,17 @@ public class MainFrame extends DefaultFrame {
 		menuBar.add(mnHelp);
 	}
 
-	public DefaultEnviornment getWorld() {
+	public Environment getWorld() {
 		return world;
 	}
 
-	public void setWorld(DefaultEnviornment world) {
-		this.world = world;
+	public void setWorld(Environment w) {
+		world.clean();
+		for(RenderableObject o: w.getObjects()){
+			world.add(o);
+		}
+		
+		this.world.repaint();
 	}
 
 	public JPopupMenu getRightClickMenu(boolean shapeSelected) {
