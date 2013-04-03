@@ -175,4 +175,9 @@ public class TextMaker extends DefaultFrame {
 	public void setColor(Color c) {
 		colorPanel.setColor(c);
 	}
+
+	public void appendText(String s) {
+		System.out.println(s);
+		textArea.setText(textArea.getText() + " " +s);
+	}
 }

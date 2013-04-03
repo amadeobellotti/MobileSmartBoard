@@ -9,11 +9,24 @@ import java.awt.event.WindowEvent;
 import javax.swing.JColorChooser;
 
 import renderableObject.RenderableObject;
+import renderableObject.Text;
+import voice.Voice;
+import frame.DefaultFrame;
 import frame.JFontChooser;
 import frame.ShapeMaker;
 import frame.TextMaker;
 
 public class TextMakerListener extends FrameListener {
+
+	Voice v = null;
+
+	public void setFrame(DefaultFrame f) {
+		super.setFrame(f);
+		if (v == null) {
+			v = new Voice(((TextMaker) frame));
+			v.start();
+		}
+	}
 
 	@Override
 	public void windowActivated(WindowEvent e) {
@@ -66,13 +79,14 @@ public class TextMakerListener extends FrameListener {
 		} else if (e.getActionCommand().equals("Finish")) {
 			System.out.println("Finish");
 			((TextMaker) frame).setVisible(false);
+			v.quit = true;
+
 
 			RenderableObject text = ((TextMaker) frame).getText();
 			text.setLocation(((TextMaker) frame).getParentFrame()
 					.getClickLocation());
 			((TextMaker) frame).getParentFrame().getWorld().add(text);
 		} else if (e.getActionCommand().equals("Set Color")) {
-			System.out.println("Set Color");
 			Color newColor = JColorChooser.showDialog(frame, "Select Color",
 					((TextMaker) frame).getColor());
 			((TextMaker) frame).setColor(newColor);
@@ -81,6 +95,8 @@ public class TextMakerListener extends FrameListener {
 			currentFont = JFontChooser.showDialog(frame, "Pick a Font",
 					currentFont);
 			((TextMaker) frame).setCurrentFont(currentFont);
+		} else if (e.getActionCommand().equals("Voice")) {
+			v.quit = !v.quit;
 		}
 	}
 

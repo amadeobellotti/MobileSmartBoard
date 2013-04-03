@@ -80,14 +80,13 @@ public class MainFrameListener extends FrameListener {
 		System.out.println(e.getActionCommand());
 		((MainFrame) frame).getRightClickMenu(shapeSelected).setVisible(false);
 		if (e.getActionCommand().contains("Custom")) {
-			ShapeMaker shapeMaker = new ShapeMaker((MainFrame) frame);
+			new ShapeMaker((MainFrame) frame);
 		} else if (e.getActionCommand().contains("Ellipse")) {
-			EllipseMaker elipseMaker = new EllipseMaker((MainFrame) frame);
+			new EllipseMaker((MainFrame) frame);
 		} else if (e.getActionCommand().contains("Rectangle")) {
-			RectangleMaker rectangleMaker = new RectangleMaker(
-					(MainFrame) frame);
+			new RectangleMaker((MainFrame) frame);
 		} else if (e.getActionCommand().contains("Text")) {
-			TextMaker textMaker = new TextMaker((MainFrame) frame);
+			new TextMaker((MainFrame) frame);
 		} else if (e.getActionCommand().contains("Modify")) {
 			modify();
 		} else if (e.getActionCommand().contains("Copy")) {
@@ -124,7 +123,8 @@ public class MainFrameListener extends FrameListener {
 		if (returnVal == JFileChooser.APPROVE_OPTION) {
 			file = chooser.getSelectedFile();
 			loc = file.getAbsolutePath();
-			Environment env = ((MainFrame) frame).getWorld().open(file.getAbsolutePath());
+			Environment env = ((MainFrame) frame).getWorld().open(
+					file.getAbsolutePath());
 			((MainFrame) frame).setWorld(env);
 		}
 	}
