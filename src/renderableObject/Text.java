@@ -5,7 +5,12 @@ import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Point;
+import java.awt.font.FontRenderContext;
+import java.awt.geom.AffineTransform;
+import java.io.PrintWriter;
 import java.util.Scanner;
+
+import renderableObject.RenderableObject.ObjectType;
 
 public class Text extends RenderableObject {
 	protected static String className = "Text";
@@ -26,23 +31,9 @@ public class Text extends RenderableObject {
 		this.c = c;
 		this.text = text;
 
-		Scanner s = new Scanner(text);
-		int lineNumber = 1;
-		String currentLine = s.nextLine();
-		int lineLength = currentLine.length();
-		while (s.hasNext()) {
-			while (currentLine.length() > LINE_LENGTH) {
-				lineLength = LINE_LENGTH;
-				currentLine = currentLine.substring(LINE_LENGTH);
-				lineNumber++;
-			}
-			currentLine = s.nextLine();
-			lineNumber++;
-		}
-		s.close();
+		setupBoundary();
+		objectType = ObjectType.TEXT;
 
-		dimension = new Dimension(font.getSize() * lineLength*2/3, lineNumber
-				* font.getSize());
 	}
 
 	@Override
@@ -74,9 +65,69 @@ public class Text extends RenderableObject {
 	}
 
 	@Override
-	public void save(String filename) {
-		// TODO Auto-generated method stub
+	public void save(PrintWriter f) {
+		f.println("<Object>");
+		f.println("<Type> Text </Type>");
+		f.println("<Location>" + location.x+","+location.y +"</Location>");
+		f.println("<Text>" +text+ "</Text>");
+		
+		f.println("<Font>");
+		f.println("<Name>" +font.getName()+ "</Name>");
+		f.println("<Style>" +font.getStyle()+ "</Style>");
+		f.println("<Size>" +font.getSize()+ "</Size>");
+		f.println("</Font>");
+		
+		f.println("<Color>" + c.getRed()+","+c.getGreen() +"," +c.getBlue() +"</Color>");
+		f.println("</Object>");
+	}
 
+	@Override
+	public void setupBoundary() {
+		Scanner s = new Scanner(text);
+		int lineNumber = 1;
+		String currentLine = s.nextLine();
+		int lineLength = currentLine.length();
+		AffineTransform affinetransform = new AffineTransform();     
+		FontRenderContext frc = new FontRenderContext(affinetransform,true,true); 
+		int textwidth = (int)(font.getStringBounds(currentLine, frc).getWidth());
+		//int textheight = (int)(font.getStringBounds(currentLine, frc).getHeight());		
+		while (s.hasNext()) {
+			while (currentLine.length() > LINE_LENGTH) {
+				lineLength = LINE_LENGTH;
+				textwidth = (int)(font.getStringBounds(currentLine.substring(0,LINE_LENGTH), frc).getWidth());
+				currentLine = currentLine.substring(LINE_LENGTH);
+				
+				lineNumber++;
+			}
+			currentLine = s.nextLine();
+			lineNumber++;
+		}
+		s.close();
+		
+		
+		
+		dimension = new Dimension(textwidth+font.getSize()/2,font.getSize()*lineNumber);
+	}
+
+	@Override
+	public RenderableObject makeCopy() {
+		String text = this.text;
+
+		Text copy = new Text(text, font, c);
+		copy.setLocation(this.getLocation());
+		return copy;
+	}
+
+	public String getText() {
+		return text;
+	}
+
+	public void setText(String t) {
+		text = t;
+	}
+
+	public Font getFont() {
+		return font;
 	}
 
 }

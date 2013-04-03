@@ -4,9 +4,14 @@ import java.awt.Point;
 import java.awt.event.ActionEvent;
 import java.awt.event.MouseEvent;
 import java.awt.event.WindowEvent;
+import java.io.File;
+
+import javax.swing.JFileChooser;
+import javax.swing.filechooser.FileNameExtensionFilter;
 
 import renderableObject.RenderableObject;
 import renderableObject.RenderableShape;
+import renderableObject.Text;
 
 import frame.EllipseMaker;
 import frame.MainFrame;
@@ -17,10 +22,15 @@ import frame.TextMaker;
 public class MainFrameListener extends FrameListener {
 
 	private RenderableObject selectedObject = null;
+	private RenderableObject clipboard = null;
 	private boolean moving = false;
 	private boolean leftClick = false;
+	private boolean shapeSelected = false;
 
-	private Point start,end;
+	private File file;
+	private String loc = null;
+
+	private Point start, end;
 
 	@Override
 	public void windowActivated(WindowEvent e) {
@@ -67,19 +77,124 @@ public class MainFrameListener extends FrameListener {
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		System.out.println(e.getActionCommand());
+		((MainFrame) frame).getRightClickMenu(shapeSelected).setVisible(false);
 		if (e.getActionCommand().contains("Custom")) {
-			((MainFrame) frame).getRightClickMenu().setVisible(false);
 			ShapeMaker shapeMaker = new ShapeMaker((MainFrame) frame);
 		} else if (e.getActionCommand().contains("Ellipse")) {
-			((MainFrame) frame).getRightClickMenu().setVisible(false);
 			EllipseMaker elipseMaker = new EllipseMaker((MainFrame) frame);
 		} else if (e.getActionCommand().contains("Rectangle")) {
-			((MainFrame) frame).getRightClickMenu().setVisible(false);
 			RectangleMaker rectangleMaker = new RectangleMaker(
 					(MainFrame) frame);
 		} else if (e.getActionCommand().contains("Text")) {
-			((MainFrame) frame).getRightClickMenu().setVisible(false);
 			TextMaker textMaker = new TextMaker((MainFrame) frame);
+		} else if (e.getActionCommand().contains("Modify")) {
+			modify();
+		} else if (e.getActionCommand().contains("Copy")) {
+			copy();
+		} else if (e.getActionCommand().contains("Cut")) {
+			cut();
+		} else if (e.getActionCommand().contains("Paste")) {
+			paste();
+		} else if (e.getActionCommand().contains("Delete")) {
+			delete();
+		} else if (e.getActionCommand().contains("Save")) {
+			save();
+		} else if (e.getActionCommand().contains("Save As")) {
+			saveAs();
+		} else if (e.getActionCommand().contains("Open")) {
+			open();
+		}
+
+		frame.repaint();
+	}
+
+	private void open() {
+		JFileChooser chooser;
+
+		if (loc == null) {
+			chooser = new JFileChooser(System.getProperty("user.home"));
+
+		} else {
+			chooser = new JFileChooser(loc);
+		}
+
+		// chooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
+		int returnVal = chooser.showOpenDialog(frame);
+		if (returnVal == JFileChooser.APPROVE_OPTION) {
+			file = chooser.getSelectedFile();
+			loc = file.getAbsolutePath();
+			((MainFrame) frame).getWorld().open(file.getAbsolutePath());
+		}
+	}
+
+	private void saveAs() {
+		JFileChooser chooser;
+
+		if (loc == null) {
+			chooser = new JFileChooser(System.getProperty("user.home"));
+
+		} else {
+			chooser = new JFileChooser(loc);
+		}
+
+		// chooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
+		int returnVal = chooser.showSaveDialog(frame);
+		if (returnVal == JFileChooser.APPROVE_OPTION) {
+			file = chooser.getSelectedFile();
+			loc = file.getAbsolutePath();
+			((MainFrame) frame).getWorld().saveAs(file.getAbsolutePath());
+		}
+	}
+
+	private void save() {
+		if (((MainFrame) frame).getWorld().getFilename() == null) {
+			saveAs();
+		} else {
+			((MainFrame) frame).getWorld().save();
+		}
+	}
+
+	private void delete() {
+		for (int i = 0; i < ((MainFrame) frame).getObjects().size(); i++) {
+			if (((MainFrame) frame).getObjects().get(i) == selectedObject) {
+				((MainFrame) frame).getObjects().remove(i);
+			}
+		}
+	}
+
+	private void paste() {
+		RenderableObject o = clipboard.makeCopy();
+
+		o.setLocation(((MainFrame) frame).getClickLocation());
+		((MainFrame) frame).getWorld().add(o);
+	}
+
+	private void cut() {
+		copy();
+		delete();
+	}
+
+	private void copy() {
+		clipboard = selectedObject;
+	}
+
+	private void modify() {
+		delete();
+		switch (selectedObject.getObjectType()) {
+		case DEFAULT:
+			break;
+		case SHAPE:
+			new ShapeMaker((MainFrame) frame, selectedObject);
+			break;
+		case RECTANGLE:
+			new RectangleMaker((MainFrame) frame, selectedObject);
+			break;
+		case ELLIPSE:
+			new EllipseMaker((MainFrame) frame, selectedObject);
+			break;
+		case TEXT:
+			new TextMaker((MainFrame) frame, (Text) selectedObject);
+			break;
 		}
 
 	}
@@ -114,6 +229,7 @@ public class MainFrameListener extends FrameListener {
 	private void selectItem(MouseEvent e) {
 		int x = e.getX();
 		int y = e.getY();
+		shapeSelected = false;
 		for (RenderableObject o : ((MainFrame) frame).getObjects()) {
 			int xMax = o.getLocation().x + o.getDimension().width;
 			int yMax = o.getLocation().y + o.getDimension().height;
@@ -121,10 +237,13 @@ public class MainFrameListener extends FrameListener {
 			if ((x > o.getLocation().x && y > o.getLocation().y)
 					&& (x < xMax && y < yMax)) {
 				selectedObject = o;
+				for (RenderableObject ro : ((MainFrame) frame).getObjects()) {
+					ro.setSelected(false);
+				}
 				o.setSelected(true);
+				shapeSelected = true;
+				frame.repaint();
 				return;
-			}else{
-				o.setSelected(false);
 			}
 		}
 		selectedObject = null;
@@ -145,15 +264,16 @@ public class MainFrameListener extends FrameListener {
 
 	@Override
 	public void mousePressed(MouseEvent e) {
+		selectItem(e);
+
 		if (e.isPopupTrigger()) {
 			showMenu(e);
-		}else{
-			selectItem(e);
-			if(selectedObject != null){
+		} else {
+			if (selectedObject != null) {
 				moving = true;
 			}
 			leftClick = false;
-			start = new Point(e.getX(),e.getY());
+			start = new Point(e.getX(), e.getY());
 		}
 	}
 
@@ -161,8 +281,8 @@ public class MainFrameListener extends FrameListener {
 	public void mouseReleased(MouseEvent e) {
 		if (e.isPopupTrigger()) {
 			showMenu(e);
-		}else if(moving && !leftClick){
-			end = new Point(e.getX(),e.getY());
+		} else if (moving && !leftClick) {
+			end = new Point(e.getX(), e.getY());
 			int xMove = start.x - end.x;
 			int yMove = start.y - end.y;
 			Point newLoc = selectedObject.getLocation();
@@ -175,8 +295,8 @@ public class MainFrameListener extends FrameListener {
 	}
 
 	private void showMenu(MouseEvent e) {
-		((MainFrame) frame).getRightClickMenu().show(e.getComponent(),
-				e.getX(), e.getY());
+		((MainFrame) frame).getRightClickMenu(shapeSelected).show(
+				e.getComponent(), e.getX(), e.getY());
 		((MainFrame) frame).setClickLocation(new Point(e.getX() + frame.getX(),
 				e.getY() + frame.getY()));
 

@@ -1,10 +1,15 @@
 package renderableObject;
 
 import java.awt.BasicStroke;
+import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Point;
+import java.io.PrintWriter;
 import java.util.ArrayList;
+
+import renderableObject.RenderableObject.ObjectType;
 
 public class RenderableShape extends RenderableObject {
 	private ArrayList<Line> lines;
@@ -21,22 +26,33 @@ public class RenderableShape extends RenderableObject {
 		}
 		lines.add(line);
 		currentState++;
+		setupBoundary();
+		objectType = ObjectType.SHAPE;
+
 	}
 
-	public void save(String filename) {
-		// TODO SAVE
-	}
+	public void save(PrintWriter f) {
+		f.println("<Object>");
+		f.println("<Type> Shape </Type>");
+		f.println("<Location>" + location.x+","+location.y +"</Location>");
+		for(Line l:lines){
+			l.save(f);
+		}
+		f.println("</Object>");	}
 
 	public void undo() {
 		if (currentState != -1) {
 			currentState--;
 		}
+		setupBoundary();
+
 	}
 
 	public void redo() {
 		if (currentState < lines.size() - 1) {
 			currentState++;
 		}
+		setupBoundary();
 	}
 
 	@Override
@@ -55,5 +71,43 @@ public class RenderableShape extends RenderableObject {
 
 			g2.drawLine(x1, y1, x2, y2);
 		}
+
+		if (selected) {
+			drawBoundingBox(g);
+		}
+	}
+
+	@Override
+	public void setupBoundary() {
+		int xMax = 0, yMax = 0;
+		for (Line l : lines) {
+			if (l.start.x > xMax)
+				xMax = l.start.x;
+			if (l.end.x > xMax)
+				xMax = l.end.x;
+
+			if (l.start.y > yMax)
+				yMax = l.start.y;
+			if (l.end.y > yMax)
+				yMax = l.end.y;
+
+		}
+
+		dimension = new Dimension(xMax, yMax);
+
+	}
+
+	@Override
+	public RenderableObject makeCopy() {
+		RenderableShape copy = new RenderableShape(this.getLocation());
+		for(Line l: lines){
+			Point s, e;
+			s= new Point(l.start.x,l.start.y);
+			e = new Point(l.end.x,l.end.y);
+			Line line = new Line(s,e,l.thickness,l.color);
+			copy.add(line);
+		}
+		
+		return copy;
 	}
 }

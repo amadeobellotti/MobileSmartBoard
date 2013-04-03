@@ -2,6 +2,8 @@ package frame;
 
 import java.awt.Color;
 import java.awt.Graphics;
+import java.awt.Point;
+
 import javax.swing.JPanel;
 import renderableObject.Line;
 import renderableObject.RenderableObject;
@@ -34,8 +36,11 @@ public class ShapeDrawer extends JPanel {
 		return currentShape;
 	}
 
-	public void setCurrentShape(RenderableShape cShape) {
+	public void setCurrentShape(RenderableObject cShape) {
+		cShape.setSelected(false);
+		cShape.setLocation(new Point(0,0));
 		currentShape = cShape;
+		repaint();
 	}
 
 	public Color getCurrentColor() {

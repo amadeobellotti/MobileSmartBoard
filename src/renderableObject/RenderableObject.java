@@ -5,6 +5,7 @@ import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Point;
 import java.awt.geom.Rectangle2D;
+import java.io.PrintWriter;
 
 public abstract class RenderableObject {
 	protected Dimension dimension;
@@ -14,10 +15,16 @@ public abstract class RenderableObject {
 	protected static int classCount = 0;
 	private String name;
 	protected boolean selected;
+	public static enum ObjectType {
+		DEFAULT, SHAPE,RECTANGLE,ELLIPSE,TEXT
+	};
+	protected ObjectType objectType;
+	
 
 	public RenderableObject(Point loc) {
 		location = loc;
 		setName();
+		objectType = ObjectType.DEFAULT;
 	}
 
 	private void setName() {
@@ -25,9 +32,12 @@ public abstract class RenderableObject {
 		classCount++;
 	}
 
+	public abstract void setupBoundary();
+	public abstract RenderableObject makeCopy();
+
 	public abstract void draw(Graphics g);
 
-	public abstract void save(String filename);
+	public abstract void save(PrintWriter f);
 
 	public void move(int x, int y) {
 		setLocation(new Point(x, y));
@@ -73,6 +83,10 @@ public abstract class RenderableObject {
 		g.setColor(Color.GRAY);
 		g.drawRect(location.x, location.y, dimension.width, dimension.height);
 		
+	}
+	
+	public ObjectType getObjectType(){
+		return objectType;
 	}
 
 }

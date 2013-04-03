@@ -3,9 +3,11 @@ package frame;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
+import java.awt.Point;
 
 import javax.swing.JFrame;
 
+import frameListener.FrameListener;
 import frameListener.ShapeMakerListener;
 import frameListener.TextMakerListener;
 import javax.swing.GroupLayout;
@@ -28,7 +30,16 @@ public class TextMaker extends DefaultFrame {
 	private Text text;
 	private ColorPanel colorPanel;
 
-	
+	public TextMaker(MainFrame parent, Text ro) {
+		this(parent);
+		ro.setSelected(false);
+		ro.setLocation(new Point(0,0));
+		text = ro;
+		textArea.setText(text.getText());
+		font = text.getFont();
+		textArea.setFont(font);
+	}
+
 	public TextMaker(MainFrame parent) {
 		super(new TextMakerListener(), new Dimension(800, 600));
 
@@ -148,19 +159,20 @@ public class TextMaker extends DefaultFrame {
 	}
 
 	public RenderableObject getText() {
-		text = new Text(textArea.getText(), font,colorPanel.getColor());
-		
+		text = new Text(textArea.getText(), font, colorPanel.getColor());
+
 		return text;
 	}
 
 	public MainFrame getParentFrame() {
 		return parent;
 	}
+
 	public Color getColor() {
 		return colorPanel.getColor();
 	}
-	
-	public void setColor(Color c){
+
+	public void setColor(Color c) {
 		colorPanel.setColor(c);
 	}
 }

@@ -32,16 +32,17 @@ public class MainFrame extends DefaultFrame {
 	private DefaultEnviornment world;
 
 	private JMenuBar menuBar;
-	private JPopupMenu rightClickMenu;
+	private JPopupMenu unselectedRightClickMenu;
+
 	private Point frameLocation;
+	private JPopupMenu selectedRightClickMenu;
 
 	public MainFrame() {
 		super(new MainFrameListener(), new Dimension(1024, 768));
 		setSize(frameSize);
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-
-		frameLocation=new Point(0,0);
+		frameLocation = new Point(0, 0);
 		world = new DefaultEnviornment();
 		GroupLayout groupLayout = new GroupLayout(getContentPane());
 		groupLayout.setHorizontalGroup(groupLayout.createParallelGroup(
@@ -50,10 +51,9 @@ public class MainFrame extends DefaultFrame {
 		groupLayout.setVerticalGroup(groupLayout.createParallelGroup(
 				Alignment.LEADING).addComponent(world,
 				GroupLayout.DEFAULT_SIZE, 709, Short.MAX_VALUE));
-
+		
 		getContentPane().setLayout(groupLayout);
 		world.addMouseListener(frameListener);
-
 		setupFrame();
 		setupMenu();
 		setupPopup();
@@ -62,30 +62,64 @@ public class MainFrame extends DefaultFrame {
 	}
 
 	private void setupPopup() {
-		rightClickMenu = new JPopupMenu();
-		rightClickMenu.addMouseListener(frameListener);
-		//addPopup(world, rightClickMenu,this);
+		//Menu if something isnt selected
+		unselectedRightClickMenu = new JPopupMenu();
+		unselectedRightClickMenu.addMouseListener(frameListener);
 
 		JMenu mnAdd = new JMenu("Add");
-		rightClickMenu.add(mnAdd);
-
+		unselectedRightClickMenu.add(mnAdd);
 		
+		JMenu mnEdit = new JMenu("Edit");
+		unselectedRightClickMenu.add(mnEdit);
+		
+		JMenuItem mntmPaste1 = new JMenuItem("Paste");
+		mnEdit.add(mntmPaste1);
+		mntmPaste1.addActionListener(frameListener);
+
 		JMenuItem mntmRectangle = new JMenuItem("Rectangle");
 		mnAdd.add(mntmRectangle);
 		mntmRectangle.addActionListener(frameListener);
-		
+
 		JMenuItem mntmElipse = new JMenuItem("Ellipse");
 		mnAdd.add(mntmElipse);
 		mntmElipse.addActionListener(frameListener);
-		
+
 		JMenuItem mntmText = new JMenuItem("Text");
 		mnAdd.add(mntmText);
 		mntmText.addActionListener(frameListener);
-		
+
 		JMenuItem mntmShape = new JMenuItem("Custom...");
 		mntmShape.setActionCommand("Custom");
 		mnAdd.add(mntmShape);
 		mntmShape.addActionListener(frameListener);
+
+		//menu if something is selected
+
+		selectedRightClickMenu = new JPopupMenu();
+		selectedRightClickMenu.addMouseListener(frameListener);
+
+		JMenuItem mntmModify = new JMenuItem("Modify");
+		selectedRightClickMenu.add(mntmModify);
+		mntmModify.addActionListener(frameListener);
+
+		JMenuItem mntmCopy = new JMenuItem("Copy");
+		selectedRightClickMenu.add(mntmCopy);
+		mntmCopy.addActionListener(frameListener);
+
+		JMenuItem mntmCut = new JMenuItem("Cut");
+		selectedRightClickMenu.add(mntmCut);
+		mntmCut.addActionListener(frameListener);
+
+		JMenuItem mntmPaste = new JMenuItem("Paste");
+		selectedRightClickMenu.add(mntmPaste);
+		mntmPaste.addActionListener(frameListener);
+
+		JMenuItem mntmDelete = new JMenuItem("Delete");
+		selectedRightClickMenu.add(mntmDelete);
+		mntmDelete.addActionListener(frameListener);
+
+	
+
 	}
 
 	private void setupFrame() {
@@ -100,37 +134,51 @@ public class MainFrame extends DefaultFrame {
 
 		JMenu mnFile = new JMenu("File");
 		menuBar.add(mnFile);
-		
+
 		JMenu mnAdd_1 = new JMenu("Add");
-		mnFile.add(mnAdd_1);
+		mnFile.add(mnAdd_1);	
 		
 		JMenuItem mntmElipse = new JMenuItem("Ellipse");
 		mnAdd_1.add(mntmElipse);
-		
+		mntmElipse.addActionListener(frameListener);
+
 		JMenuItem mntmRectangle = new JMenuItem("Rectangle");
 		mnAdd_1.add(mntmRectangle);
-		
+		mntmRectangle.addActionListener(frameListener);
+
 		JMenuItem mntmText = new JMenuItem("Text");
 		mnAdd_1.add(mntmText);
-		
+		mntmText.addActionListener(frameListener);
+
 		JMenuItem mntmCustom = new JMenuItem("Custom...");
 		mnAdd_1.add(mntmCustom);
-		
+		mntmCustom.setActionCommand("Custom");
+		mntmCustom.addActionListener(frameListener);
+
 		JMenuItem mntmSave = new JMenuItem("Save");
 		mnFile.add(mntmSave);
+		mntmSave.addActionListener(frameListener);
 		
-		JMenuItem mntmOpen = new JMenuItem("Open");
+		JMenuItem mntmSaveAs = new JMenuItem("Save As...");
+		mnFile.add(mntmSaveAs);
+		mntmSaveAs.setActionCommand("Save As");
+		mntmSaveAs.addActionListener(frameListener);
+
+
+		JMenuItem mntmOpen = new JMenuItem("Open...");
 		mnFile.add(mntmOpen);
+		mntmOpen.setActionCommand("Open");
+		mntmOpen.addActionListener(frameListener);
 
 		JMenu mnEdit = new JMenu("Edit");
 		menuBar.add(mnEdit);
-		
+
 		JMenuItem mntmSettings = new JMenuItem("Settings");
 		mnEdit.add(mntmSettings);
 
 		JMenu mnView = new JMenu("View");
 		menuBar.add(mnView);
-		
+
 		JMenuItem mntmList = new JMenuItem("List");
 		mnView.add(mntmList);
 
@@ -146,8 +194,11 @@ public class MainFrame extends DefaultFrame {
 		this.world = world;
 	}
 
-	public JPopupMenu getRightClickMenu() {
-		return rightClickMenu;
+	public JPopupMenu getRightClickMenu(boolean shapeSelected) {
+		if (!shapeSelected)
+			return unselectedRightClickMenu;
+		else
+			return selectedRightClickMenu;
 	}
 
 	private static void addPopup(Component component, final JPopupMenu popup) {
@@ -172,14 +223,16 @@ public class MainFrame extends DefaultFrame {
 
 	public void setClickLocation(Point loc) {
 		frameLocation = loc;
-		System.out.println(frameLocation);
 	}
-
+	
 	public Point getClickLocation() {
 		return frameLocation;
 	}
 
 	public ArrayList<RenderableObject> getObjects() {
 		return world.getObjects();
+	}
+	protected JPopupMenu getSelectedpopupMenu() {
+		return selectedRightClickMenu;
 	}
 }

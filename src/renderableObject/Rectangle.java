@@ -8,6 +8,9 @@ import java.awt.Graphics2D;
 import java.awt.Point;
 import java.awt.geom.Ellipse2D;
 import java.awt.geom.Rectangle2D;
+import java.io.PrintWriter;
+
+import renderableObject.RenderableObject.ObjectType;
 
 public class Rectangle extends RenderableObject {
 	protected static String className = "Rectangle";
@@ -15,6 +18,7 @@ public class Rectangle extends RenderableObject {
 	private Point start, end;
 	private int thickness;
 	private Color c;
+	
 
 	public Rectangle(Point start, Point end, int thickness, Color c) {
 		super(new Point(0,0));
@@ -22,8 +26,9 @@ public class Rectangle extends RenderableObject {
 		this.end = end;
 		this.thickness = thickness;
 		this.c = c;
-		
-		dimension = new Dimension(Math.abs(start.x - end.x)+thickness+2, Math.abs(start.y - end.y)+thickness+2);
+		setupBoundary();
+		objectType = ObjectType.RECTANGLE;
+
 	}
 
 	@Override
@@ -44,9 +49,30 @@ public class Rectangle extends RenderableObject {
 	
 
 	@Override
-	public void save(String filename) {
-		// TODO Auto-generated method stub
+	public void save(PrintWriter f) {
+		f.println("<Object>");
+		f.println("<Type> Rectangle </Type>");
+		f.println("<Location>" + location.x+","+location.y +"</Location>");
+		f.println("<Start>" + start.x+","+start.y +"</Start>");
+		f.println("<End>" + end.x+","+end.y +"</End>");
+		f.println("<Thickness>" + thickness +"</Thickness>");
+		f.println("<Color>" + c.getRed()+","+c.getGreen() +"," +c.getBlue() +"</Color>");
+		f.println("</Object>");
+	}
 
+	@Override
+	public void setupBoundary() {
+		dimension = new Dimension(Math.abs(start.x - end.x)+thickness+2, Math.abs(start.y - end.y)+thickness+2);	
+	}
+
+	@Override
+	public RenderableObject makeCopy() {
+		Point s,e;
+		s = new Point(start.x,start.y);
+		e = new Point(end.x,end.y);
+		Rectangle copy = new Rectangle(s, e, thickness, c);
+		copy.setLocation(this.getLocation());
+		return copy;
 	}
 
 }
