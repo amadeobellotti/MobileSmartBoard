@@ -94,14 +94,49 @@ public class MainFrameListener extends FrameListener {
 			image();
 		} else if (e.getActionCommand().contains("Latex")) {
 			latex();
-		} else if (e.getActionCommand().contains("Quit")){
+		} else if (e.getActionCommand().contains("Identify")) {
+			identifyItems();
+		} else if (e.getActionCommand().contains("Cancel")) {
+			cancel();
+		} else if (e.getActionCommand().contains("select")) {
+			select(e.getActionCommand().substring(6));
+		} else if (e.getActionCommand().contains("Quit")) {
 			System.out.println("Goodbye");
 			System.exit(0);
-		} else if(e.getActionCommand().contains("New")){
+		} else if (e.getActionCommand().contains("New")) {
 			newWorld();
 		}
 
 		frame.repaint();
+	}
+
+	private void select(String s) {
+		int index = Integer.parseInt(s);
+		for (RenderableObject o : ((MainFrame) frame).getObjects()) {
+			if (o.getID() == index) {
+				selectItem(index);
+			}
+		}
+		clearIdentities();
+	}
+
+	private void cancel() {
+		clearIdentities();
+	}
+
+	private void identifyItems() {
+		int id = 0;
+		for (RenderableObject o : ((MainFrame) frame).getObjects()) {
+			o.setID(id);
+			o.setIdentified(true);
+			id++;
+		}
+	}
+
+	private void clearIdentities() {
+		for (RenderableObject o : ((MainFrame) frame).getObjects()) {
+			o.setIdentified(false);
+		}
 	}
 
 	private void newWorld() {
@@ -110,7 +145,7 @@ public class MainFrameListener extends FrameListener {
 
 	private void latex() {
 		if (selectedObject != null) {
-			new LatexMaker((MainFrame) frame,selectedObject);
+			new LatexMaker((MainFrame) frame, selectedObject);
 		} else {
 			new LatexMaker((MainFrame) frame);
 		}
@@ -335,8 +370,7 @@ public class MainFrameListener extends FrameListener {
 				e.getY() + frame.getY()));
 
 	}
-	
-	
+
 	public Point getModifiedLoc() {
 		return modifiedObjectLoc;
 	}
@@ -344,6 +378,17 @@ public class MainFrameListener extends FrameListener {
 	public void setModifiedLoc(Point p) {
 		modifiedObjectLoc = p;
 	}
-	
+
+	// /NEW NEW NEW
+	public void selectItem(int itemIndex) {
+		for (RenderableObject o : ((MainFrame) frame).getObjects()) {
+			o.setSelected(false);
+		}
+		selectedObject = ((MainFrame) frame).getObjects().get(itemIndex);
+		selectedObject.setSelected(true);
+		shapeSelected = true;
+		frame.repaint();
+		return;
+	}
 
 }
