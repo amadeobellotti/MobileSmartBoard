@@ -20,16 +20,16 @@ import frame.LatexMaker;
 
 public class LatexMakerListener extends FrameListener implements FocusListener,
 		DocumentListener {
-	private final int UNDO_REDO_STACK_LIMIT = 100;
-	private final char[] PAIRS = new char[] { '{', '}', '(', ')', '[', ']' };
-	private static int stackPointer;
+	private final static int UNDO_REDO_STACK_LIMIT = 100;
+	private final static char[] PAIRS = new char[] { '{', '}', '(', ')', '[', ']' };
+	private int stackPointer;
 	private int cmdStartPos;
-	private static int startHighlight;
-	private static int endHighlight;
+	private int startHighlight;
+	private int endHighlight;
 	private boolean allowInsert;
 	private boolean undoRedoFlag;
 	private boolean wasLastInsertNext;
-	private static ArrayList<String> txtStack;
+	private ArrayList<String> txtStack;
 	private AutoComplete autoComp;
 	private String lastValidLatexString = "";
 
@@ -41,6 +41,11 @@ public class LatexMakerListener extends FrameListener implements FocusListener,
 	 * \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
 	 * \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
 	 */
+	public LatexMakerListener(){
+		setNewTxtAreaVars();
+
+	}
+	
 	@Override
 	public void windowActivated(WindowEvent e) {
 	}
@@ -67,7 +72,6 @@ public class LatexMakerListener extends FrameListener implements FocusListener,
 
 	@Override
 	public void windowOpened(WindowEvent e) {
-		setNewTxtAreaVars();
 	}
 
 	// run at launch, initialize vars, render arbitrary latex string so no
@@ -135,7 +139,7 @@ public class LatexMakerListener extends FrameListener implements FocusListener,
 		if ((whatDo == "Undo") && (stackPointer > 0)) {
 			stackPointer--;
 			updateTxtArea();
-		} else if ((whatDo == "redo") && (stackPointer < txtStack.size() - 1)) {
+		} else if ((whatDo == "Redo") && (stackPointer < txtStack.size() - 1)) {
 			stackPointer++;
 			updateTxtArea();
 		}
@@ -488,11 +492,11 @@ public class LatexMakerListener extends FrameListener implements FocusListener,
 		((LatexMaker) frame).getTextArea().setCaretPosition(caretPosition);
 	}
 
-	public static int getStartHighlight() {
+	public int getStartHighlight() {
 		return startHighlight;
 	}
 
-	public static int getEndHighlight() {
+	public int getEndHighlight() {
 		return endHighlight;
 	}
 
