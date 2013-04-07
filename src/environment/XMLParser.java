@@ -10,6 +10,7 @@ import renderableObject.Ellipse;
 import renderableObject.Line;
 import renderableObject.Rectangle;
 import renderableObject.RenderableImage;
+import renderableObject.RenderableLatex;
 import renderableObject.RenderableObject;
 import renderableObject.RenderableShape;
 import renderableObject.Text;
@@ -144,9 +145,46 @@ public class XMLParser {
 		case "Image":
 			ro = generateImage(inFile);
 			break;
+		case "Latex":
+			ro = generateLatex(inFile);
+			break;
+		default:
+			System.out.println("Error In File");
+			System.exit(1);
 		}
 
 		return ro;
+	}
+
+	private RenderableObject generateLatex(Scanner inFile) {
+		Point loc = null;
+		String t = "";
+		String current = inFile.next();
+		while (inFile.hasNext()
+				&& !(isCloseTag(current) && parseTag(current) == LegalTag.Object)) {
+			if (isOpenTag(current)) {
+				switch (parseTag(current)) {
+				case Location:
+					loc = new Point(inFile.nextInt(), inFile.nextInt());
+					break;
+				case Source:
+					Pattern p = inFile.delimiter();
+					inFile.useDelimiter("</Source>");
+					t = inFile.next();
+					inFile.useDelimiter(p);
+					break;
+				default:
+					break;
+				}
+			}
+			current = inFile.next();
+
+		}
+		RenderableLatex latex = new RenderableLatex(t);
+
+		latex.setLocation(loc);
+
+		return latex;
 	}
 
 	private RenderableObject generateImage(Scanner inFile) {
