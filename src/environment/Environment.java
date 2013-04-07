@@ -147,5 +147,10 @@ public abstract class Environment extends JPanel {
 			commandsAvailble = "";
 		this.commandsAvailble = commandsAvailble;
 	}
+	
+	public void newWorld(){
+		objects = new ArrayList<RenderableObject>();
+		repaint();
+	}
 
 }

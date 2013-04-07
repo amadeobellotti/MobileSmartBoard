@@ -137,7 +137,7 @@ public class CommandHandler extends Thread {
 		// exit
 		// REMINDER: add System.exit(0) to MainFrameListener
 		Command exitCmd = new Command("exit", true);
-		exitCmd.setAction(new ActionEvent(this, 420, "Exit"));
+		exitCmd.setAction(new ActionEvent(this, 420, "Quit"));
 		cancelCmd.addNextCommand(exitCmd);
 
 		return cancelCmd;

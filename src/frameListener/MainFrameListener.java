@@ -94,9 +94,18 @@ public class MainFrameListener extends FrameListener {
 			image();
 		} else if (e.getActionCommand().contains("Latex")) {
 			latex();
+		} else if (e.getActionCommand().contains("Quit")){
+			System.out.println("Goodbye");
+			System.exit(0);
+		} else if(e.getActionCommand().contains("New")){
+			newWorld();
 		}
 
 		frame.repaint();
+	}
+
+	private void newWorld() {
+		((MainFrame) frame).newWorld();
 	}
 
 	private void latex() {

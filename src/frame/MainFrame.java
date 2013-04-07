@@ -140,6 +140,11 @@ public class MainFrame extends DefaultFrame {
 
 		JMenu mnFile = new JMenu("File");
 		menuBar.add(mnFile);
+		
+		JMenuItem mntmNew = new JMenuItem("New");
+		mnFile.add(mntmNew);
+		mntmNew.addActionListener(frameListener);
+
 
 		JMenu mnAdd_1 = new JMenu("Add");
 		mnFile.add(mnAdd_1);
@@ -183,6 +188,10 @@ public class MainFrame extends DefaultFrame {
 		mntmOpen.setActionCommand("Open");
 		mntmOpen.addActionListener(frameListener);
 
+		JMenuItem mntmQuit = new JMenuItem("Quit");
+		mnFile.add(mntmQuit);
+		mntmQuit.addActionListener(frameListener);
+		
 		JMenu mnEdit = new JMenu("Edit");
 		menuBar.add(mnEdit);
 
@@ -241,6 +250,10 @@ public class MainFrame extends DefaultFrame {
 
 	public void setModfiedLoc(Point p) {
 		((MainFrameListener) frameListener).setModifiedLoc(p);
+	}
+
+	public void newWorld() {
+		world.newWorld();
 	}
 
 }
