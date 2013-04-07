@@ -9,65 +9,38 @@ import java.awt.event.WindowEvent;
 import javax.swing.JColorChooser;
 
 import renderableObject.RenderableObject;
-import renderableObject.Text;
-import voice.Voice;
-import frame.DefaultFrame;
 import frame.JFontChooser;
 import frame.ShapeMaker;
 import frame.TextMaker;
 
 public class TextMakerListener extends FrameListener {
 
-	Voice v = null;
-
-	public void setFrame(DefaultFrame f) {
-		super.setFrame(f);
-		if (v == null) {
-			v = new Voice(((TextMaker) frame));
-			v.start();
-		}
-	}
-
 	@Override
 	public void windowActivated(WindowEvent e) {
-		// TODO Auto-generated method stub
-
 	}
 
 	@Override
 	public void windowClosed(WindowEvent e) {
-		// TODO Auto-generated method stub
-
 	}
 
 	@Override
 	public void windowClosing(WindowEvent e) {
-		// TODO Auto-generated method stub
-
 	}
 
 	@Override
 	public void windowDeactivated(WindowEvent e) {
-		// TODO Auto-generated method stub
-
 	}
 
 	@Override
 	public void windowDeiconified(WindowEvent e) {
-		// TODO Auto-generated method stub
-
 	}
 
 	@Override
 	public void windowIconified(WindowEvent e) {
-		// TODO Auto-generated method stub
-
 	}
 
 	@Override
 	public void windowOpened(WindowEvent e) {
-		// TODO Auto-generated method stub
-
 	}
 
 	@Override
@@ -79,13 +52,18 @@ public class TextMakerListener extends FrameListener {
 		} else if (e.getActionCommand().equals("Finish")) {
 			System.out.println("Finish");
 			((TextMaker) frame).setVisible(false);
-			v.quit = true;
-			v.interrupt();
-
 
 			RenderableObject text = ((TextMaker) frame).getText();
-			text.setLocation(((TextMaker) frame).getParentFrame()
-					.getClickLocation());
+
+			if (((TextMaker) frame).getParentFrame().getModfiedLoc() == null) {
+				text.setLocation(((TextMaker) frame).getParentFrame()
+						.getClickLocation());
+			} else {
+				text.setLocation(((TextMaker) frame).getParentFrame()
+						.getModfiedLoc());
+				((TextMaker) frame).getParentFrame().setModfiedLoc(null);
+			}
+
 			((TextMaker) frame).getParentFrame().getWorld().add(text);
 		} else if (e.getActionCommand().equals("Set Color")) {
 			Color newColor = JColorChooser.showDialog(frame, "Select Color",
@@ -96,39 +74,27 @@ public class TextMakerListener extends FrameListener {
 			currentFont = JFontChooser.showDialog(frame, "Pick a Font",
 					currentFont);
 			((TextMaker) frame).setCurrentFont(currentFont);
-		} else if (e.getActionCommand().equals("Voice")) {
-			v.quit = !v.quit;
 		}
 	}
 
 	@Override
 	public void mouseClicked(MouseEvent e) {
-		// TODO Auto-generated method stub
-
 	}
 
 	@Override
 	public void mouseEntered(MouseEvent e) {
-		// TODO Auto-generated method stub
-
 	}
 
 	@Override
 	public void mouseExited(MouseEvent e) {
-		// TODO Auto-generated method stub
-
 	}
 
 	@Override
 	public void mousePressed(MouseEvent e) {
-		// TODO Auto-generated method stub
-
 	}
 
 	@Override
 	public void mouseReleased(MouseEvent e) {
-		// TODO Auto-generated method stub
-
 	}
 
 }

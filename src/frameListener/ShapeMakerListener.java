@@ -10,9 +10,7 @@ import javax.swing.JColorChooser;
 
 import renderableObject.Line;
 import renderableObject.RenderableObject;
-import renderableObject.RenderableShape;
 
-import frame.MainFrame;
 import frame.ShapeDrawer;
 import frame.ShapeMaker;
 
@@ -23,44 +21,30 @@ public class ShapeMakerListener extends FrameListener {
 
 	@Override
 	public void windowActivated(WindowEvent e) {
-		// TODO Auto-generated method stub
-
 	}
 
 	@Override
 	public void windowClosed(WindowEvent e) {
-		// TODO Auto-generated method stub
-
 	}
 
 	@Override
 	public void windowClosing(WindowEvent e) {
-		// TODO Auto-generated method stub
-
 	}
 
 	@Override
 	public void windowDeactivated(WindowEvent e) {
-		// TODO Auto-generated method stub
-
 	}
 
 	@Override
 	public void windowDeiconified(WindowEvent e) {
-		// TODO Auto-generated method stub
-
 	}
 
 	@Override
 	public void windowIconified(WindowEvent e) {
-		// TODO Auto-generated method stub
-
 	}
 
 	@Override
 	public void windowOpened(WindowEvent e) {
-		// TODO Auto-generated method stub
-
 	}
 
 	@Override
@@ -76,15 +60,19 @@ public class ShapeMakerListener extends FrameListener {
 
 			RenderableObject shape = ((ShapeMaker) frame).getShapeDrawer()
 					.getCurrentShape();
-			
-			shape.setLocation(((ShapeMaker) frame).getParentFrame()
+			if(((ShapeMaker) frame).getParentFrame().getModfiedLoc() == null){
+				shape.setLocation(((ShapeMaker) frame).getParentFrame()
 					.getClickLocation());
+			}else {
+				shape.setLocation(((ShapeMaker) frame).getParentFrame().getModfiedLoc());
+				((ShapeMaker) frame).getParentFrame().setModfiedLoc(null);
+			}
+
 			((ShapeMaker) frame).getParentFrame().getWorld().add(shape);
-		}else if (e.getActionCommand().equals("Set Color")) {
+		} else if (e.getActionCommand().equals("Set Color")) {
 			System.out.println("Set Color");
-			Color newColor = JColorChooser.showDialog(
-                    frame,"Select Color",
-                    ((ShapeMaker) frame).getColor());
+			Color newColor = JColorChooser.showDialog(frame, "Select Color",
+					((ShapeMaker) frame).getColor());
 			((ShapeMaker) frame).setColor(newColor);
 		}
 	}
@@ -95,14 +83,10 @@ public class ShapeMakerListener extends FrameListener {
 
 	@Override
 	public void mouseEntered(MouseEvent e) {
-		// TODO Auto-generated method stub
-
 	}
 
 	@Override
 	public void mouseExited(MouseEvent e) {
-		// TODO Auto-generated method stub
-
 	}
 
 	@Override

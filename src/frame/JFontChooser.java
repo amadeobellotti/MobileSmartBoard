@@ -26,7 +26,6 @@
 package frame;
 
 import java.awt.*;
-import java.awt.Frame;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -44,8 +43,13 @@ import javax.swing.event.ListSelectionListener;
  * @author Benjamin Sigg
  */
 public class JFontChooser extends JComponent {
-    private Font font = null;
-    private JList list = new JList (
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	private Font font = null;
+    @SuppressWarnings({ "unchecked", "rawtypes" })
+	private JList list = new JList (
             GraphicsEnvironment.getLocalGraphicsEnvironment().getAvailableFontFamilyNames() );
 
     private JSpinner numberField;
@@ -100,7 +104,7 @@ public class JFontChooser extends JComponent {
             createGUI ( list, boxBold, boxItalic, numberField, exampleField, fontLabel );
     }
 
-    protected void createGUI ( JList list, JCheckBox boxBold, JCheckBox boxItalic,
+    protected void createGUI ( @SuppressWarnings("rawtypes") JList list, JCheckBox boxBold, JCheckBox boxItalic,
             JSpinner fontSize, JTextField exampleField, JLabel fontLabel ){
 
         GridBagLayout gbl = new GridBagLayout ();
@@ -283,7 +287,11 @@ public class JFontChooser extends JComponent {
     }
 
     protected static class FontDialog extends JDialog{
-        private boolean ok = false;
+        /**
+		 * 
+		 */
+		private static final long serialVersionUID = 1L;
+		private boolean ok = false;
         private JFontChooser chooser;
 
         public FontDialog( JFontChooser chooser, String title, Frame owner ){

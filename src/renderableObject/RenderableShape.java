@@ -1,15 +1,12 @@
 package renderableObject;
 
 import java.awt.BasicStroke;
-import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Point;
 import java.io.PrintWriter;
 import java.util.ArrayList;
-
-import renderableObject.RenderableObject.ObjectType;
 
 public class RenderableShape extends RenderableObject {
 	private ArrayList<Line> lines;
@@ -75,6 +72,7 @@ public class RenderableShape extends RenderableObject {
 		if (selected) {
 			drawBoundingBox(g);
 		}
+		drawID(g);
 	}
 
 	@Override

@@ -11,6 +11,10 @@ import renderableObject.RenderableShape;
 
 public class ShapeDrawer extends JPanel {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 3539085620496031391L;
 	private Color currentColor = Color.black;
 	private RenderableObject currentShape = new RenderableShape(
 			this.getLocation());

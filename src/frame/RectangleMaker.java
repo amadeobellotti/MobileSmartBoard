@@ -1,16 +1,15 @@
 package frame;
 
-import java.awt.Dimension;
-
-import javax.swing.JFrame;
-
 import renderableObject.RenderableObject;
 
-import frameListener.EllipseMakerListener;
 import frameListener.RectangleMakerListener;
-import frameListener.ShapeMakerListener;
 
 public class RectangleMaker extends ShapeMaker {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 6143144260925025341L;
+
 	public RectangleMaker(MainFrame parent, RenderableObject ro) {
 		this(parent);
 		shapeDrawer.setCurrentShape(ro);
@@ -21,6 +20,7 @@ public class RectangleMaker extends ShapeMaker {
 		frameListener.setFrame(this);
 		btnUndo.setEnabled(false);
 		btnRedo.setEnabled(false);
+		setTitle("Rectangle Maker");
 
 	}
 }

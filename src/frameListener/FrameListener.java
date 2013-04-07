@@ -13,11 +13,15 @@ public abstract class FrameListener implements WindowListener, ActionListener, M
 	public void setFrame(DefaultFrame f) {
 		frame = f;
 	}
-	
 
 
 	public void refresh() {
 
+	}
+
+
+	public DefaultFrame getFrame() {
+		return frame;
 	}
 
 

@@ -5,10 +5,8 @@ import java.awt.Point;
 
 import environment.DefaultEnvironment;
 import environment.Environment;
-import frameListener.FrameListener;
 import frameListener.MainFrameListener;
 
-import javax.swing.JPanel;
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
 import javax.swing.JFrame;
@@ -17,11 +15,10 @@ import javax.swing.JMenu;
 import javax.swing.JPopupMenu;
 import javax.swing.JMenuItem;
 
+import commands.CommandHandler;
+
 import renderableObject.RenderableObject;
 
-import java.awt.Component;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 
 public class MainFrame extends DefaultFrame {
@@ -42,6 +39,9 @@ public class MainFrame extends DefaultFrame {
 		setSize(frameSize);
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
+		CommandHandler cmd = new CommandHandler(frameListener);
+		cmd.start();
+		
 		frameLocation = new Point(0, 0);
 		world = new DefaultEnvironment();
 		GroupLayout groupLayout = new GroupLayout(getContentPane());
@@ -219,26 +219,6 @@ public class MainFrame extends DefaultFrame {
 			return selectedRightClickMenu;
 	}
 
-	private static void addPopup(Component component, final JPopupMenu popup) {
-		component.addMouseListener(new MouseAdapter() {
-			public void mousePressed(MouseEvent e) {
-				if (e.isPopupTrigger()) {
-					showMenu(e);
-				}
-			}
-
-			public void mouseReleased(MouseEvent e) {
-				if (e.isPopupTrigger()) {
-					showMenu(e);
-				}
-			}
-
-			private void showMenu(MouseEvent e) {
-				popup.show(e.getComponent(), e.getX(), e.getY());
-			}
-		});
-	}
-
 	public void setClickLocation(Point loc) {
 		frameLocation = loc;
 	}
@@ -254,4 +234,13 @@ public class MainFrame extends DefaultFrame {
 	protected JPopupMenu getSelectedpopupMenu() {
 		return selectedRightClickMenu;
 	}
+	
+	public Point getModfiedLoc() {
+		return ((MainFrameListener) frameListener).getModifiedLoc();
+	}
+
+	public void setModfiedLoc(Point p) {
+		((MainFrameListener) frameListener).setModifiedLoc(p);
+	}
+
 }

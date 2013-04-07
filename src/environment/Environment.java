@@ -2,11 +2,10 @@ package environment;
 
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.Font;
 import java.awt.Graphics;
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.OutputStream;
 import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.Scanner;
@@ -14,17 +13,24 @@ import java.util.Scanner;
 import javax.swing.JPanel;
 
 import renderableObject.RenderableObject;
+import renderableObject.Text;
 
 public abstract class Environment extends JPanel {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -8865750200234550261L;
 	protected ArrayList<RenderableObject> objects;
 	protected Dimension dimension;
 	private String filename = null;
+	private String commandsAvailble;
 
 	public Environment(Dimension d) {
 		objects = new ArrayList<RenderableObject>();
 		dimension = d;
 		setSize(dimension);
+		commandsAvailble = "";
 
 	}
 
@@ -34,7 +40,6 @@ public abstract class Environment extends JPanel {
 		try {
 			f = new PrintWriter(filename);
 		} catch (FileNotFoundException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 
@@ -63,7 +68,6 @@ public abstract class Environment extends JPanel {
 		try {
 			return xml.parseEnviorment(new Scanner(new File(absolutePath)));
 		} catch (FileNotFoundException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		return null;
@@ -114,7 +118,14 @@ public abstract class Environment extends JPanel {
 		for (RenderableObject o : objects) {
 			o.draw(g);
 		}
+		drawCommands(g);
 
+	}
+
+	private void drawCommands(Graphics g) {
+		Text t = new Text(commandsAvailble, new Font(null, Font.BOLD, 15),
+				Color.BLACK);
+		t.draw(g);
 	}
 
 	public void drawBackground(Graphics g) {
@@ -125,6 +136,16 @@ public abstract class Environment extends JPanel {
 
 	public ArrayList<RenderableObject> getObjects() {
 		return objects;
+	}
+
+	public String getCommandsAvailble() {
+		return commandsAvailble;
+	}
+
+	public void setCommandsAvailble(String commandsAvailble) {
+		if (commandsAvailble == null)
+			commandsAvailble = "";
+		this.commandsAvailble = commandsAvailble;
 	}
 
 }

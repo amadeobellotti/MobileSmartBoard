@@ -1,6 +1,5 @@
 package frameListener;
 
-import java.awt.Image;
 import java.awt.Point;
 import java.awt.event.ActionEvent;
 import java.awt.event.MouseEvent;
@@ -8,11 +7,9 @@ import java.awt.event.WindowEvent;
 import java.io.File;
 
 import javax.swing.JFileChooser;
-import javax.swing.filechooser.FileNameExtensionFilter;
 
 import renderableObject.RenderableImage;
 import renderableObject.RenderableObject;
-import renderableObject.RenderableShape;
 import renderableObject.Text;
 
 import environment.Environment;
@@ -35,47 +32,34 @@ public class MainFrameListener extends FrameListener {
 	private String loc = null;
 
 	private Point start, end;
+	private Point modifiedObjectLoc;
 
 	@Override
 	public void windowActivated(WindowEvent e) {
-		// TODO Auto-generated method stub
-
 	}
 
 	@Override
 	public void windowClosed(WindowEvent e) {
-		// TODO Auto-generated method stub
-
 	}
 
 	@Override
 	public void windowClosing(WindowEvent e) {
-		// TODO Auto-generated method stub
-
 	}
 
 	@Override
 	public void windowDeactivated(WindowEvent e) {
-		// TODO Auto-generated method stub
-
 	}
 
 	@Override
 	public void windowDeiconified(WindowEvent e) {
-		// TODO Auto-generated method stub
-
 	}
 
 	@Override
 	public void windowIconified(WindowEvent e) {
-		// TODO Auto-generated method stub
-
 	}
 
 	@Override
 	public void windowOpened(WindowEvent e) {
-		// TODO Auto-generated method stub
-
 	}
 
 	@Override
@@ -219,6 +203,7 @@ public class MainFrameListener extends FrameListener {
 
 	private void modify() {
 		delete();
+		modifiedObjectLoc = selectedObject.getLocationCopy();
 		switch (selectedObject.getObjectType()) {
 		case DEFAULT:
 			break;
@@ -296,14 +281,10 @@ public class MainFrameListener extends FrameListener {
 
 	@Override
 	public void mouseEntered(MouseEvent e) {
-		// TODO Auto-generated method stub
-
 	}
 
 	@Override
 	public void mouseExited(MouseEvent e) {
-		// TODO Auto-generated method stub
-
 	}
 
 	@Override
@@ -325,7 +306,7 @@ public class MainFrameListener extends FrameListener {
 	public void mouseReleased(MouseEvent e) {
 		if (e.isPopupTrigger()) {
 			showMenu(e);
-		} else if (moving && !leftClick) {
+		} else if (moving && !leftClick && selectedObject != null) {
 			end = new Point(e.getX(), e.getY());
 			int xMove = start.x - end.x;
 			int yMove = start.y - end.y;
@@ -345,5 +326,15 @@ public class MainFrameListener extends FrameListener {
 				e.getY() + frame.getY()));
 
 	}
+	
+	
+	public Point getModifiedLoc() {
+		return modifiedObjectLoc;
+	}
+
+	public void setModifiedLoc(Point p) {
+		modifiedObjectLoc = p;
+	}
+	
 
 }

@@ -5,10 +5,14 @@ import java.awt.Point;
 import java.awt.Toolkit;
 import javax.swing.JFrame;
 import javax.swing.JMenuBar;
-import frameListener.DefaultFrameListener;
 import frameListener.FrameListener;
 
 public class DefaultFrame extends JFrame {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -5579060094126531911L;
+
 	protected FrameListener frameListener;
 
 	protected Dimension frameSize;

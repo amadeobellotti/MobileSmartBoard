@@ -1,11 +1,8 @@
 package frameListener;
 
 import java.awt.Color;
-import java.awt.event.ActionEvent;
 import java.awt.event.MouseEvent;
-import java.awt.event.WindowEvent;
 
-import renderableObject.Ellipse;
 import renderableObject.Rectangle;
 import frame.ShapeDrawer;
 import frame.ShapeMaker;

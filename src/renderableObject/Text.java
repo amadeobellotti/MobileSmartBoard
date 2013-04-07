@@ -10,8 +10,6 @@ import java.awt.geom.AffineTransform;
 import java.io.PrintWriter;
 import java.util.Scanner;
 
-import renderableObject.RenderableObject.ObjectType;
-
 public class Text extends RenderableObject {
 	protected static String className = "Text";
 	protected int classCount = 0;
@@ -87,8 +85,9 @@ public class Text extends RenderableObject {
 	public void setupBoundary() {
 		Scanner s = new Scanner(text);
 		int lineNumber = 1;
-		String currentLine = s.nextLine();
-		int lineLength = currentLine.length();
+		String currentLine = "";
+		if (s.hasNextLine())
+			currentLine = s.nextLine();
 		AffineTransform affinetransform = new AffineTransform();
 		FontRenderContext frc = new FontRenderContext(affinetransform, true,
 				true);
@@ -98,7 +97,6 @@ public class Text extends RenderableObject {
 		// frc).getHeight());
 		while (s.hasNext()) {
 			while (currentLine.length() > LINE_LENGTH) {
-				lineLength = LINE_LENGTH;
 				textwidth = (int) (font.getStringBounds(
 						currentLine.substring(0, LINE_LENGTH), frc).getWidth());
 				currentLine = currentLine.substring(LINE_LENGTH);

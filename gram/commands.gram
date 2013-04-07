@@ -1,0 +1,7 @@
+#JSGF V1.0;
+
+grammar commands;
+
+public <commands> = (cancel | new | ellipse | rectangle | text | latex | image | shape | exit | select | copy | paste | cut | delete | open | save | as | modify) * ;
+
+public <numbers> = (zero | one | two | three | four | five | six | seven | eight | nine | ten) * ;

@@ -1,20 +1,14 @@
 package frame;
 
-import java.awt.Dimension;
-
-import javax.swing.JFrame;
-
 import frameListener.EllipseMakerListener;
-import frameListener.ShapeMakerListener;
-import javax.swing.GroupLayout;
-import javax.swing.GroupLayout.Alignment;
-import javax.swing.JButton;
-import javax.swing.JLabel;
-import javax.swing.LayoutStyle.ComponentPlacement;
-
 import renderableObject.RenderableObject;
 
 public class EllipseMaker extends ShapeMaker {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 8493436658850288596L;
+
 	public EllipseMaker(MainFrame parent, RenderableObject ro) {
 		this(parent);
 		shapeDrawer.setCurrentShape(ro);
@@ -25,6 +19,7 @@ public class EllipseMaker extends ShapeMaker {
 		frameListener.setFrame(this);
 		btnUndo.setEnabled(false);
 		btnRedo.setEnabled(false);
+		setTitle("Ellipse Maker");
 
 	}
 }

@@ -7,6 +7,10 @@ import javax.swing.JPanel;
 
 public class ColorPanel extends JPanel {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 5714445697086909210L;
 	private Color color = Color.BLACK;
 
 	public void setColor(Color c) {

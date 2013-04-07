@@ -43,6 +43,11 @@ public class RenderableImage extends RenderableObject {
 	public void draw(Graphics g) {
 		Graphics2D g2 = (Graphics2D) g;
 		g2.drawImage(img, null, location.x, location.y);
+		drawID(g);
+		if(selected){
+			drawBoundingBox(g);
+		}
+		
 	}
 
 	@Override

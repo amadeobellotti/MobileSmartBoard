@@ -13,8 +13,6 @@ import org.scilab.forge.jlatexmath.TeXConstants;
 import org.scilab.forge.jlatexmath.TeXFormula;
 import org.scilab.forge.jlatexmath.TeXIcon;
 
-import renderableObject.RenderableObject.ObjectType;
-
 public class RenderableLatex extends RenderableObject {
 
 	String latexCode;
@@ -33,7 +31,7 @@ public class RenderableLatex extends RenderableObject {
 
 	private void renderLatex() {
 		TeXFormula fomule = new TeXFormula(latexCode);
-		TeXIcon ti = fomule.createTeXIcon(TeXConstants.STYLE_DISPLAY, 40);
+		TeXIcon ti = fomule.createTeXIcon(TeXConstants.STYLE_DISPLAY, 20);
 		renderedImage = new BufferedImage(ti.getIconWidth(),
 				ti.getIconHeight(), BufferedImage.TYPE_4BYTE_ABGR);
 		 ti.paintIcon(new JLabel(), renderedImage.getGraphics(), 0, 0);
@@ -58,6 +56,10 @@ public class RenderableLatex extends RenderableObject {
 	public void draw(Graphics g) {
 		Graphics2D g2 = (Graphics2D) g;
 		g2.drawImage(renderedImage, null, location.x, location.y);
+		if(selected){
+			drawBoundingBox(g);
+		}
+	drawID(g);
 	}
 
 	@Override
@@ -72,6 +74,10 @@ public class RenderableLatex extends RenderableObject {
 
 	public String getCode() {
 		return latexCode;
+	}
+
+	public BufferedImage getLatexImg() {
+		return renderedImage;
 	}
 
 }

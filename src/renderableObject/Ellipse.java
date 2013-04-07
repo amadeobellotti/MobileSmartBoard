@@ -6,11 +6,8 @@ import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Point;
-import java.awt.Shape;
 import java.awt.geom.Ellipse2D;
 import java.io.PrintWriter;
-
-import renderableObject.RenderableObject.ObjectType;
 
 public class Ellipse extends RenderableObject {
 	protected static String className = "Ellipse";
@@ -43,7 +40,7 @@ public class Ellipse extends RenderableObject {
 		if (selected) {
 			drawBoundingBox(g);
 		}
-
+		drawID(g);
 	}
 
 	@Override
