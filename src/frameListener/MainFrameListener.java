@@ -304,15 +304,15 @@ public class MainFrameListener extends FrameListener {
 		int y = e.getY();
 		shapeSelected = false;
 		for (RenderableObject o : ((MainFrame) frame).getObjects()) {
+			o.setSelected(false);
+		}
+		for (RenderableObject o : ((MainFrame) frame).getObjects()) {
 			int xMax = o.getLocation().x + o.getDimension().width;
 			int yMax = o.getLocation().y + o.getDimension().height;
-
 			if ((x > o.getLocation().x && y > o.getLocation().y)
 					&& (x < xMax && y < yMax)) {
+				clearIdentities();
 				selectedObject = o;
-				for (RenderableObject ro : ((MainFrame) frame).getObjects()) {
-					ro.setSelected(false);
-				}
 				o.setSelected(true);
 				shapeSelected = true;
 				frame.repaint();
