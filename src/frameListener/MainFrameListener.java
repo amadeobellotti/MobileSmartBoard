@@ -230,10 +230,12 @@ public class MainFrameListener extends FrameListener {
 	}
 
 	private void paste() {
-		RenderableObject o = clipboard.makeCopy();
+		if (clipboard != null) {
+			RenderableObject o = clipboard.makeCopy();
 
-		o.setLocation(((MainFrame) frame).getClickLocation());
-		((MainFrame) frame).getWorld().add(o);
+			o.setLocation(((MainFrame) frame).getClickLocation());
+			((MainFrame) frame).getWorld().add(o);
+		}
 	}
 
 	private void cut() {
