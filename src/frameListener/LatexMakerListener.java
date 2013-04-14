@@ -125,6 +125,9 @@ public class LatexMakerListener extends FrameListener implements FocusListener,
 			wasLastInsertNext = false;
 			moveInsert(0);
 			setFocusOnTxtArea();
+		} else if (e.getActionCommand().contains("Append")) {
+			//call appendText function on the chars after 'append'
+			//in the action command string to add that stuff
 		}
 	}
 

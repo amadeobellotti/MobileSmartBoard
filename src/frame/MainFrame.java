@@ -21,6 +21,8 @@ import renderableObject.RenderableObject;
 
 import java.util.ArrayList;
 
+import latexInterpreter.LatexInterpreter;
+
 public class MainFrame extends DefaultFrame {
 	/**
 	 * 
@@ -33,13 +35,16 @@ public class MainFrame extends DefaultFrame {
 
 	private Point frameLocation;
 	private JPopupMenu selectedRightClickMenu;
+	
+	private CommandHandler cmd;
+	private LatexInterpreter latexVoice;
 
 	public MainFrame() {
 		super(new MainFrameListener(), new Dimension(1024, 768));
 		setSize(frameSize);
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-		CommandHandler cmd = new CommandHandler(frameListener);
+		cmd = new CommandHandler(frameListener);
 		cmd.start();
 		
 		frameLocation = new Point(0, 0);

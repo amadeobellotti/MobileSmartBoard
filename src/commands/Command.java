@@ -50,6 +50,24 @@ public class Command {
 		return null;
 	}
 	
+	//searches the given string for a command within the string,
+	//doesnt have to exactly match, but only one of the potential child commands
+	//may be found in the searched string for it to be matched
+	public Command matchNextSub(String nextCommand) {
+		ArrayList<Integer> matchesFound = new ArrayList<Integer>();
+		if (!isTerminating) {
+			for (int i = 0; i < nextCommands.size(); i++) {
+				if (nextCommands.get(i).getText().contains(nextCommand)) {
+					matchesFound.add(i);
+				}
+			}
+			if (matchesFound.size() < 1) {
+				return nextCommands.get(matchesFound.get(0));
+			}
+		}
+		return null;
+	}
+	
 	public String getText() {
 		return commandText;
 	}
